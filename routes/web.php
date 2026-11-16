@@ -50,7 +50,10 @@ Route::get('/system/run-seo-migration/{secret}', function ($secret) {
     }
     
     try {
-        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        \Illuminate\Support\Facades\Artisan::call('migrate', [
+            '--path' => 'database/migrations/2026_11_16_000001_create_blog_posts_table.php',
+            '--force' => true
+        ]);
         $migrateOutput = \Illuminate\Support\Facades\Artisan::output();
 
         \Illuminate\Support\Facades\Artisan::call('db:seed', [
