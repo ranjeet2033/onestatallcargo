@@ -103,6 +103,21 @@ Validated JSON-LD schema blocks are injected across the application:
 - **Blog Articles:** `Article` schema with headline, image, author, publisher, and ISO 8601 publication timestamps.
 - **Locations Pages:** `LocalBusiness` schema with exact street addresses, operating hours, and contact points for verified facilities in Delhi and Lucknow.
 
+### 4.5 Official Social Media Channels Integration
+Configured OneStall Cargo's official social media profiles:
+- **YouTube:** `https://www.youtube.com/@onestallcargoindia`
+- **Instagram:** `https://www.instagram.com/onestallcargo`
+- **LinkedIn:** `https://www.linkedin.com/company/onestallcargo`
+- **X (Twitter):** `https://twitter.com/onestallcargo`
+- **Facebook:** `https://www.facebook.com/onestallcargo`
+
+**Touchpoints Implemented:**
+1. **Database Settings:** Stored in `settings` table (`group = 'social'`) and accessed via `setting('youtube_url')` and `setting('instagram_url')` with persistent cache busting.
+2. **Knowledge Graph (`Organization.sameAs`):** Linked within the global JSON-LD `Organization` schema in `SeoService::organizationSchema()` to verify official brand social entity signals to Google.
+3. **Public Layout Footer:** Added accessible, branded icon links with `target="_blank" rel="noopener noreferrer"` in `resources/views/layouts/public.blade.php`.
+4. **Contact Hub:** Integrated a dedicated "Connect With OneStall Cargo" panel in `resources/views/contact.blade.php`.
+5. **App Layout Footer:** Updated legacy placeholders with direct links in `resources/views/layouts/app.blade.php`.
+
 ---
 
 ## 5. Verification of Existing Business Functionality

@@ -391,11 +391,13 @@ class SeoService
                     'availableLanguage' => ['English', 'Hindi'],
                 ]
             ],
-            'sameAs' => [
-                'https://www.facebook.com/onestallcargo',
-                'https://twitter.com/onestallcargo',
-                'https://www.linkedin.com/company/onestallcargo',
-            ]
+            'sameAs' => array_values(array_filter([
+                setting('facebook_url', 'https://www.facebook.com/onestallcargo'),
+                setting('twitter_url', 'https://twitter.com/onestallcargo'),
+                setting('linkedin_url', 'https://www.linkedin.com/company/onestallcargo'),
+                setting('instagram_url', 'https://www.instagram.com/onestallcargo'),
+                setting('youtube_url', 'https://www.youtube.com/@onestallcargoindia'),
+            ], fn($url) => !empty($url) && $url !== '#'))
         ];
     }
 

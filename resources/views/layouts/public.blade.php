@@ -278,6 +278,28 @@
                     <p class="text-sm leading-relaxed mb-4 text-gray-400">
                         OneStall Cargo is India's tech-enabled logistics platform powering 10,000+ businesses with automated courier allocation, 1-2 day COD remittance, heavy B2B freight, and a nationwide network covering 29,000+ pin codes.
                     </p>
+
+                    <!-- Official Social Media Channels -->
+                    <div class="mt-4 mb-3">
+                        <span class="text-[11px] font-bold text-gray-400 uppercase tracking-wider block mb-2.5">Official Social Channels</span>
+                        <div class="flex items-center space-x-2.5">
+                            <a href="{{ setting('youtube_url', 'https://www.youtube.com/@onestallcargoindia') }}" target="_blank" rel="noopener noreferrer" aria-label="OneStall Cargo on YouTube" class="w-8 h-8 rounded-lg bg-gray-800 text-gray-300 hover:bg-[#FF0000] hover:text-white flex items-center justify-center transition" title="YouTube">
+                                <i class="fa-brands fa-youtube text-sm"></i>
+                            </a>
+                            <a href="{{ setting('instagram_url', 'https://www.instagram.com/onestallcargo') }}" target="_blank" rel="noopener noreferrer" aria-label="OneStall Cargo on Instagram" class="w-8 h-8 rounded-lg bg-gray-800 text-gray-300 hover:bg-[#E4405F] hover:text-white flex items-center justify-center transition" title="Instagram">
+                                <i class="fa-brands fa-instagram text-sm"></i>
+                            </a>
+                            <a href="{{ setting('linkedin_url', 'https://www.linkedin.com/company/onestallcargo') }}" target="_blank" rel="noopener noreferrer" aria-label="OneStall Cargo on LinkedIn" class="w-8 h-8 rounded-lg bg-gray-800 text-gray-300 hover:bg-[#0077b5] hover:text-white flex items-center justify-center transition" title="LinkedIn">
+                                <i class="fa-brands fa-linkedin-in text-sm"></i>
+                            </a>
+                            <a href="{{ setting('twitter_url', 'https://twitter.com/onestallcargo') }}" target="_blank" rel="noopener noreferrer" aria-label="OneStall Cargo on X (Twitter)" class="w-8 h-8 rounded-lg bg-gray-800 text-gray-300 hover:bg-black hover:text-white flex items-center justify-center transition" title="X (Twitter)">
+                                <i class="fa-brands fa-x-twitter text-sm"></i>
+                            </a>
+                            <a href="{{ setting('facebook_url', 'https://www.facebook.com/onestallcargo') }}" target="_blank" rel="noopener noreferrer" aria-label="OneStall Cargo on Facebook" class="w-8 h-8 rounded-lg bg-gray-800 text-gray-300 hover:bg-[#1877F2] hover:text-white flex items-center justify-center transition" title="Facebook">
+                                <i class="fa-brands fa-facebook-f text-sm"></i>
+                            </a>
+                        </div>
+                    </div>
                     
                     <!-- Registered Corporate Office Info -->
                     <div class="mt-4 space-y-1.5 text-xs text-gray-400 leading-relaxed border-t border-gray-800 pt-4">

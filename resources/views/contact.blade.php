@@ -117,6 +117,30 @@
                     <p class="text-sm text-gray-600">Monday – Saturday: <span class="font-semibold text-gray-800">9:00 AM – 7:00 PM</span></p>
                     <p class="text-sm text-gray-600">Sunday: <span class="font-semibold text-gray-800">10:00 AM – 4:00 PM</span></p>
                 </div>
+
+                <!-- Connect on Social Media -->
+                <div class="mt-6 bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+                    <span class="text-[10px] font-extrabold uppercase tracking-widest text-brand-red mb-1.5 block">Official Channels</span>
+                    <h3 class="text-sm font-bold text-gray-900 mb-2">Connect With OneStall Cargo</h3>
+                    <p class="text-xs text-gray-500 mb-4">Stay tuned for shipping rate alerts, logistics guides, and franchise expansion updates.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <a href="{{ setting('youtube_url', 'https://www.youtube.com/@onestallcargoindia') }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white text-xs font-semibold transition border border-red-100">
+                            <i class="fa-brands fa-youtube text-sm"></i> YouTube
+                        </a>
+                        <a href="{{ setting('instagram_url', 'https://www.instagram.com/onestallcargo') }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-pink-50 text-pink-600 hover:bg-pink-600 hover:text-white text-xs font-semibold transition border border-pink-100">
+                            <i class="fa-brands fa-instagram text-sm"></i> Instagram
+                        </a>
+                        <a href="{{ setting('linkedin_url', 'https://www.linkedin.com/company/onestallcargo') }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white text-xs font-semibold transition border border-blue-100">
+                            <i class="fa-brands fa-linkedin text-sm"></i> LinkedIn
+                        </a>
+                        <a href="{{ setting('twitter_url', 'https://twitter.com/onestallcargo') }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-100 text-gray-800 hover:bg-black hover:text-white text-xs font-semibold transition border border-gray-200">
+                            <i class="fa-brands fa-x-twitter text-sm"></i> X (Twitter)
+                        </a>
+                        <a href="{{ setting('facebook_url', 'https://www.facebook.com/onestallcargo') }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-700 hover:text-white text-xs font-semibold transition border border-blue-200">
+                            <i class="fa-brands fa-facebook-f text-sm"></i> Facebook
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

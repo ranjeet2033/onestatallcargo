@@ -100,10 +100,12 @@
                         <img src="{{ asset('images/logo.jpg') }}" alt="OneStall Cargo" class="h-10 object-contain rounded bg-white p-1" style="max-width: 150px;">
                     </div>
                     <p class="text-sm mb-6 leading-relaxed">Your ultimate logistics partner. Tech-enabled courier and cargo company providing express B2C delivery, B2B freight, nationwide franchise hubs, and business shipping APIs.</p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-500 hover:text-[#FFD700] transition"><i class="fa-brands fa-linkedin text-xl"></i></a>
-                        <a href="#" class="text-gray-500 hover:text-[#FFD700] transition"><i class="fa-brands fa-twitter text-xl"></i></a>
-                        <a href="#" class="text-gray-500 hover:text-[#FFD700] transition"><i class="fa-brands fa-facebook text-xl"></i></a>
+                    <div class="flex space-x-3 text-gray-500">
+                        <a href="{{ setting('youtube_url', 'https://www.youtube.com/@onestallcargoindia') }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="hover:text-red-500 transition"><i class="fa-brands fa-youtube text-lg"></i></a>
+                        <a href="{{ setting('instagram_url', 'https://www.instagram.com/onestallcargo') }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="hover:text-pink-500 transition"><i class="fa-brands fa-instagram text-lg"></i></a>
+                        <a href="{{ setting('linkedin_url', 'https://www.linkedin.com/company/onestallcargo') }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="hover:text-[#FFD700] transition"><i class="fa-brands fa-linkedin text-lg"></i></a>
+                        <a href="{{ setting('twitter_url', 'https://twitter.com/onestallcargo') }}" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" class="hover:text-white transition"><i class="fa-brands fa-x-twitter text-lg"></i></a>
+                        <a href="{{ setting('facebook_url', 'https://www.facebook.com/onestallcargo') }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="hover:text-blue-500 transition"><i class="fa-brands fa-facebook text-lg"></i></a>
                     </div>
                 </div>
 

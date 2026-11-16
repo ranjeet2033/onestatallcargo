@@ -43,6 +43,45 @@ Route::get('/locations/delhi-ncr', [\App\Http\Controllers\LocationController::cl
 Route::get('/locations/lucknow-up', [\App\Http\Controllers\LocationController::class, 'lucknow'])->name('locations.lucknow');
 Route::get('/serviceability', [\App\Http\Controllers\LocationController::class, 'serviceability'])->name('serviceability');
 
+// Protected System Maintenance & Migration Route
+Route::get('/system/run-seo-migration/{secret}', function ($secret) {
+    if ($secret !== 'onestall-seo-migrate-2026') {
+        abort(403, 'Unauthorized access.');
+    }
+    
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        $migrateOutput = \Illuminate\Support\Facades\Artisan::output();
+
+        \Illuminate\Support\Facades\Artisan::call('db:seed', [
+            '--class' => 'BlogPostSeeder',
+            '--force' => true,
+        ]);
+        $seedOutput = \Illuminate\Support\Facades\Artisan::output();
+
+        \Illuminate\Support\Facades\Artisan::call('db:seed', [
+            '--class' => 'SeoContentSeeder',
+            '--force' => true,
+        ]);
+        $seoSeedOutput = \Illuminate\Support\Facades\Artisan::output();
+
+        \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Migrations and seeders executed successfully.',
+            'migrate' => $migrateOutput,
+            'blog_seed' => $seedOutput,
+            'seo_seed' => $seoSeedOutput,
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+        ], 500);
+    }
+});
+
 
 // Public Redesign Routes
 Route::get('/solutions/b2c-shipping', function () { return view('public.solutions.b2c'); })->name('solutions.b2c');

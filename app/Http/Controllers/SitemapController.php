@@ -73,17 +73,22 @@ class SitemapController extends Controller
             'priority' => '0.9',
         ];
 
-        // Add dynamic blog posts if model exists
-        if (class_exists(\App\Models\BlogPost::class)) {
-            $posts = \App\Models\BlogPost::where('is_published', true)->get();
-            foreach ($posts as $post) {
-                $urls[] = [
-                    'loc' => $baseUrl . '/blog/' . $post->slug,
-                    'lastmod' => $post->updated_at ? $post->updated_at->format('Y-m-d') : date('Y-m-d'),
-                    'changefreq' => 'monthly',
-                    'priority' => '0.8',
-                ];
+        // Add dynamic blog posts if model exists and table exists
+        try {
+            if (class_exists(\App\Models\BlogPost::class) && \Illuminate\Support\Facades\Schema::hasTable('blog_posts')) {
+                $posts = \App\Models\BlogPost::where('is_published', true)->get();
+                foreach ($posts as $post) {
+                    $urls[] = [
+                        'loc' => $baseUrl . '/blog/' . $post->slug,
+                        'lastmod' => $post->updated_at ? $post->updated_at->format('Y-m-d') : date('Y-m-d'),
+                        'changefreq' => 'monthly',
+                        'priority' => '0.8',
+                    ];
+                }
             }
+        } catch (\Throwable $e) {
+            // Silently fall back to core static URLs if blog table is not yet migrated
+            \Illuminate\Support\Facades\Log::warning('Sitemap dynamic blog query skipped: ' . $e->getMessage());
         }
 
         // Build XML
