@@ -378,14 +378,14 @@ class SeoService
             'contactPoint' => [
                 [
                     '@type' => 'ContactPoint',
-                    'telephone' => '+91-1800-123-4567',
+                    'telephone' => setting('site_phone', '+91 73764 90981'),
                     'contactType' => 'customer service',
                     'areaServed' => 'IN',
                     'availableLanguage' => ['English', 'Hindi'],
                 ],
                 [
                     '@type' => 'ContactPoint',
-                    'telephone' => '+91-1800-123-4567',
+                    'telephone' => setting('site_phone', '+91 73764 90981'),
                     'contactType' => 'sales',
                     'areaServed' => 'IN',
                     'availableLanguage' => ['English', 'Hindi'],
@@ -559,7 +559,7 @@ class SeoService
             '@type' => 'LocalBusiness',
             'name' => $location['name'] ?? ($this->siteName . ' Hub'),
             'image' => asset($this->defaultImage),
-            'telephone' => $location['phone'] ?? '+91-1800-123-4567',
+            'telephone' => $location['phone'] ?? setting('site_phone', '+91 73764 90981'),
             'email' => $location['email'] ?? 'support@onestallcargo.com',
             'url' => $location['url'] ?? $this->baseUrl,
             'address' => [

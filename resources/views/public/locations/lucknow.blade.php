@@ -19,7 +19,7 @@
     'city' => 'Lucknow',
     'state' => 'Uttar Pradesh',
     'pincode' => '226023',
-    'phone' => '+91-1800-123-4567',
+    'phone' => '+91 73764 90981',
     'email' => 'support@onestallcargo.com',
     'url' => url('/locations/lucknow-up')
 ]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
@@ -83,7 +83,7 @@
                             <i class="fa-solid fa-phone text-brand-navy mt-1 text-base"></i>
                             <div>
                                 <strong class="text-gray-900 block">Direct Inquiries:</strong>
-                                <span>1800-123-4567 &bull; support@onestallcargo.com</span>
+                                <span><a href="tel:+917376490981" class="hover:underline font-semibold text-gray-900">+91 73764 90981</a> &bull; support@onestallcargo.com</span>
                             </div>
                         </div>
                         <div class="flex items-start space-x-3">

@@ -19,7 +19,7 @@
     'city' => 'New Delhi',
     'state' => 'Delhi',
     'pincode' => '110020',
-    'phone' => '+91-1800-123-4567',
+    'phone' => '+91 73764 90981',
     'email' => 'hub@onestallcargo.com',
     'url' => url('/locations/delhi-ncr')
 ]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
@@ -76,6 +76,13 @@
                             <div>
                                 <strong class="text-gray-900 block">Hub Address:</strong>
                                 <span>Warehouse B-12, Okhla Industrial Area, Phase 1, South Delhi, New Delhi – 110020</span>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <i class="fa-solid fa-phone text-brand-navy mt-1 text-base"></i>
+                            <div>
+                                <strong class="text-gray-900 block">Hub Inquiries & Dispatch:</strong>
+                                <span><a href="tel:+917376490981" class="hover:underline font-semibold text-gray-900">+91 73764 90981</a> &bull; hub@onestallcargo.com</span>
                             </div>
                         </div>
                         <div class="flex items-start space-x-3">

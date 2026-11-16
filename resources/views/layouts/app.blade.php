@@ -137,7 +137,7 @@
                     <ul class="space-y-3 text-sm">
                         <li class="flex items-start"><i class="fa-solid fa-location-dot mt-1 mr-3 text-[#FFD700]"></i> {{ setting('site_address', '123 Logistics Park, Mumbai, India 400001') }}</li>
                         <li class="flex items-center"><i class="fa-solid fa-envelope mr-3 text-[#FFD700]"></i> {{ setting('site_email', 'support@onestallcargo.com') }}</li>
-                        <li class="flex items-center"><i class="fa-solid fa-phone mr-3 text-[#FFD700]"></i> {{ setting('site_phone', '1800-123-4567') }}</li>
+                        <li class="flex items-center"><i class="fa-solid fa-phone mr-3 text-[#FFD700]"></i> <a href="tel:+917376490981" class="hover:text-[#FFD700] transition">{{ setting('site_phone', '+91 73764 90981') }}</a></li>
                     </ul>
                 </div>
             </div>

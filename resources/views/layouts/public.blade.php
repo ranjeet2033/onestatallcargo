@@ -205,6 +205,9 @@
 
                 <!-- Desktop CTAs -->
                 <div class="hidden lg:flex items-center space-x-3">
+                    <a href="tel:+917376490981" class="text-xs font-bold text-gray-700 hover:text-brand-red transition flex items-center gap-1.5 px-3 py-2 rounded-full bg-gray-100 hover:bg-gray-200" title="Toll-Free Helpline">
+                        <i class="fa-solid fa-phone text-brand-red text-[11px]"></i> +91 73764 90981
+                    </a>
                     <a href="{{ route('track') }}" class="text-sm font-semibold text-gray-700 hover:text-brand-red transition flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-gray-50">
                         <i class="fa-solid fa-location-crosshairs text-brand-red"></i> Track Shipment
                     </a>
@@ -307,7 +310,7 @@
                         <p class="font-semibold text-white">ANYURVA AYURVEDA PRIVATE LIMITED</p>
                         <p>CIN: <span class="font-mono text-gray-300">U21003UP2024PTC205462</span></p>
                         <p>569/153 KHA, Barigawan, KP Road, 32 BN PAC,<br>Lucknow – 226023, Uttar Pradesh, India</p>
-                        <p class="pt-1"><i class="fa-solid fa-phone text-brand-red mr-1.5"></i> Toll-Free: 1800-123-4567</p>
+                        <p class="pt-1"><i class="fa-solid fa-phone text-brand-red mr-1.5"></i> Toll-Free / Helpline: <a href="tel:+917376490981" class="text-white hover:underline font-semibold">+91 73764 90981</a></p>
                         <p><i class="fa-solid fa-envelope text-brand-red mr-1.5"></i> support@onestallcargo.com</p>
                     </div>
                 </div>

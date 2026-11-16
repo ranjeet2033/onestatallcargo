@@ -97,7 +97,7 @@
                         <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
                             <i class="fa-solid fa-phone text-brand-blue text-sm"></i>
                         </div>
-                        <a href="tel:18001234567" class="text-sm hover:text-brand-blue transition">1800-123-4567</a>
+                        <a href="tel:+917376490981" class="text-sm hover:text-brand-blue transition font-semibold">+91 73764 90981</a>
                     </div>
                 </div>
 

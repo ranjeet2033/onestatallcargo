@@ -59,7 +59,7 @@ The technical codebase is 100% prepared for Google Search Console. The site admi
     - **Category:** Courier Service / Freight Forwarding Service / Logistics Service
     - **Address:** Warehouse B-12, Okhla Industrial Area, Phase 1, South Delhi, New Delhi – 110020
     - **Website Link:** `https://onestallcargo.com/locations/delhi-ncr`
-    - **Phone:** +91-1800-123-4567
+    - **Phone:** +91 73764 90981
     - **Hours:** Mon–Sat: 08:00 AM – 08:00 PM
 - [ ] **3.2 Claim & Verify Corporate Headquarters (Lucknow):**
   - Claim listing on Google Business Profile:
@@ -67,7 +67,7 @@ The technical codebase is 100% prepared for Google Search Console. The site admi
     - **Category:** Corporate Office / Logistics Service
     - **Address:** 569/153 KHA, Barigawan, KP Road, 32 BN PAC, Lucknow – 226023, Uttar Pradesh
     - **Website Link:** `https://onestallcargo.com/locations/lucknow-up`
-    - **Phone:** +91-1800-123-4567
+    - **Phone:** +91 73764 90981
 
 ---
 
