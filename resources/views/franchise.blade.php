@@ -1,5 +1,34 @@
 @extends('layouts.public')
-@section('title', "Logistics Franchise & Partner Hub Program | OneStall Cargo")
+
+@section('title', 'Courier Franchise in India | High ROI Logistics Partner | OneStall')
+@section('meta_description', 'Start a profitable courier franchise in India with OneStall Cargo. Own exclusive district delivery rights, earn 35-45% profit margins, and access complete tech support.')
+@section('meta_keywords', 'Courier Franchise in India, Logistics Hub Franchise, Courier Booking Counter Franchise, High ROI Franchise Opportunity, District Hub Partner')
+
+@section('breadcrumbs')
+    <span class="text-gray-400">/</span>
+    <span class="text-gray-900 font-medium">Franchise Program</span>
+@endsection
+
+@section('schema_json')
+<script type="application/ld+json">
+{!! json_encode([
+    '@'.'context' => 'https://schema.org',
+    '@type' => 'BusinessOpportunity',
+    'name' => 'OneStall Cargo Logistics Hub & Courier Franchise',
+    'description' => 'Logistics franchise and delivery hub business opportunity in India offering district delivery rights, automated software, and 35-45% profit margins.',
+    'provider' => [
+        '@type' => 'Organization',
+        'name' => 'OneStall Cargo',
+        'url' => 'https://onestallcargo.com'
+    ]
+], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+<script type="application/ld+json">
+{!! json_encode(seo()->breadcrumbSchema([
+    'Courier Franchise' => route('franchise')
+]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endsection
 
 @section('content')
 <!-- 1. Hero Section -->
@@ -8,13 +37,13 @@
         <div class="flex flex-col lg:flex-row items-center gap-12">
             <div class="w-full lg:w-1/2 text-center lg:text-left">
                 <div class="inline-block px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-brand-navy text-xs font-bold mb-4 uppercase tracking-wide">
-                    Business Partnership Opportunity
+                    Courier Franchise Business Opportunity in India
                 </div>
                 <h1 class="text-3xl md:text-5xl font-extrabold text-brand-navy leading-tight mb-4">
-                    Own a High-ROI <span class="text-brand-red">Logistics Hub Franchise</span>
+                    Own a High-ROI <span class="text-brand-red">Courier Franchise in India</span>
                 </h1>
                 <p class="text-base md:text-lg text-gray-700 mb-8 font-medium leading-relaxed">
-                    Partner with OneStall Cargo to open a local logistics booking counter or sorting hub in your city. Earn high commission margins on every B2B, B2C, and cargo shipment.
+                    Partner with OneStall Cargo to open a local logistics booking counter or sorting hub in your city. Earn high commission margins on every B2B cargo, B2C express parcel, and commercial consignment.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                     <a href="#apply" class="px-8 py-3.5 rounded-full bg-brand-red text-white font-bold text-base hover:bg-brand-redHover transition shadow-md shadow-red-500/20">
@@ -25,7 +54,10 @@
 
             <div class="w-full lg:w-1/2 relative">
                 <div class="relative rounded-2xl overflow-hidden shadow-xl border-4 border-white bg-white">
-                    <img src="{{ asset('images/warehouse.jpg') }}" alt="Franchise Logistics Hub" class="w-full h-80 md:h-96 object-cover">
+                    <picture>
+                        <source srcset="{{ asset('images/warehouse.webp') }}" type="image/webp">
+                        <img src="{{ asset('images/warehouse.jpg') }}" alt="Courier Franchise in India - OneStall Logistics Partner Hub" width="600" height="380" class="w-full h-80 md:h-96 object-cover">
+                    </picture>
                 </div>
                 <div class="absolute -bottom-4 -left-4 bg-white p-3.5 rounded-xl shadow-lg border border-gray-100 flex items-center gap-3 z-20">
                     <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold">

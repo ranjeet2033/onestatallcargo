@@ -1,6 +1,29 @@
 @extends('layouts.public')
-@section('title', 'Contact OneStall Cargo | Direct Logistics & Courier Partner')
-@section('meta_description', 'Contact OneStall Cargo for express courier booking, B2B cargo shipping, franchise logistics hubs, and enterprise supply chain partnerships.')
+@section('title', 'Contact OneStall Cargo | Courier & Logistics Support India')
+@section('meta_description', 'Contact OneStall Cargo for business inquiries, franchise opportunities, enterprise cargo rates, or support. Registered office in Lucknow, UP & national operational hubs.')
+@section('meta_keywords', 'Logistics Company Office India, Courier Customer Care, Business Inquiries Logistics, Enterprise Cargo Contact, OneStall Lucknow Office')
+
+@section('breadcrumbs')
+    <span class="text-gray-400">/</span>
+    <span class="text-gray-900 font-medium">Contact Us</span>
+@endsection
+
+@section('schema_json')
+<script type="application/ld+json">
+{!! json_encode([
+    '@'.'context' => 'https://schema.org',
+    '@type' => 'ContactPage',
+    'name' => 'Contact OneStall Cargo',
+    'url' => route('contact'),
+    'description' => 'Official contact details, corporate office location, inquiry form, and support channels for OneStall Cargo and Anyurva Ayurveda Private Limited.'
+], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+<script type="application/ld+json">
+{!! json_encode(seo()->breadcrumbSchema([
+    'Contact Us' => route('contact')
+]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endsection
 @section('content')
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <h1 class="text-3xl font-extrabold text-brand-navy mb-8 text-center">Contact Us</h1>

@@ -1,5 +1,32 @@
 @extends('layouts.public')
-@section('title', "B2C Shipping Solutions | OneStall Cargo")
+
+@section('title', 'B2C Courier Service in India | Fast E-Commerce Shipping | OneStall')
+@section('meta_description', 'Scale your online store with India\'s premier B2C courier service. Reach 29,000+ pin codes, reduce RTO by up to 40%, and enjoy 1-2 day express COD remittance.')
+@section('meta_keywords', 'Courier Service in India, B2C Express Courier, eCommerce Parcel Delivery, Doorstep Courier Delivery, Low RTO Shipping')
+
+@section('breadcrumbs')
+    <span class="text-gray-400">/</span>
+    <span class="text-gray-500">Solutions</span>
+    <span class="text-gray-400">/</span>
+    <span class="text-gray-900 font-medium">B2C Shipping</span>
+@endsection
+
+@section('schema_json')
+<script type="application/ld+json">
+{!! json_encode(seo()->serviceSchema([
+    'name' => 'OneStall B2C Express Courier & Shipping Service',
+    'type' => 'B2C eCommerce Courier Delivery',
+    'areaServed' => 'India',
+    'description' => 'Fast, door-to-door express eCommerce parcel delivery across 29,000+ pin codes in India with automated courier allocation and 1-2 day COD remittance.'
+]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+<script type="application/ld+json">
+{!! json_encode(seo()->breadcrumbSchema([
+    'Solutions' => route('services'),
+    'B2C Shipping' => route('solutions.b2c')
+]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endsection
 
 @section('content')
 <!-- 1. Hero Section -->
@@ -9,13 +36,13 @@
             <!-- Left Text Content -->
             <div class="w-full lg:w-1/2 text-center lg:text-left">
                 <div class="inline-block px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-brand-navy text-xs font-bold mb-4 uppercase tracking-wide">
-                    Direct-To-Consumer Logistics
+                    Direct-To-Consumer Express Logistics
                 </div>
                 <h1 class="text-3xl md:text-5xl font-extrabold text-brand-navy leading-tight mb-4">
-                    Next-Gen <span class="text-brand-red">B2C Shipping</span> For E-Commerce Brands
+                    Next-Gen <span class="text-brand-red">B2C Courier Service</span> for E-Commerce Brands
                 </h1>
                 <p class="text-base md:text-lg text-gray-700 mb-8 font-medium leading-relaxed">
-                    Ship across 29,000+ pin codes in India with 15+ top courier partners. Lower shipping costs, reduce RTO by up to 40%, and get 1-2 day COD remittance.
+                    Ship parcels across 29,000+ pin codes in India with 15+ top courier partners. Lower shipping costs, reduce RTO by up to 40%, and get 1-2 day COD remittance.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                     <a href="{{ route('register') }}" class="px-8 py-3.5 rounded-full bg-brand-red text-white font-bold text-base hover:bg-brand-redHover transition shadow-md shadow-red-500/20">
@@ -34,7 +61,10 @@
             <!-- Right Image Mockup -->
             <div class="w-full lg:w-1/2 relative">
                 <div class="relative rounded-2xl overflow-hidden shadow-xl border-4 border-white bg-white">
-                    <img src="{{ asset('images/dashboard.jpg') }}" alt="B2C Shipping Dashboard" class="w-full h-80 md:h-96 object-cover">
+                    <picture>
+                        <source srcset="{{ asset('images/dashboard.webp') }}" type="image/webp">
+                        <img src="{{ asset('images/dashboard.jpg') }}" alt="B2C Courier Service in India - OneStall Shipping Dashboard" width="600" height="380" class="w-full h-80 md:h-96 object-cover">
+                    </picture>
                 </div>
                 <!-- Floating Badge 1 -->
                 <div class="absolute -bottom-4 -left-4 bg-white p-3.5 rounded-xl shadow-lg border border-gray-100 flex items-center gap-3 z-20">

@@ -1,5 +1,20 @@
 @extends('layouts.public')
-@section('title', "Logistics & Transport Partner Network | OneStall Cargo")
+@section('title', 'Logistics & Transport Partner Network | OneStall Cargo')
+@section('meta_description', 'Join India\'s fastest-growing logistics partner network. Connect your fleet to receive daily parcel loads, dedicated routes, and guaranteed automated weekly payouts.')
+@section('meta_keywords', 'Logistics Partner Network, Transport Fleet Partnership, Courier Carrier Network, Regional Fleet Partner India')
+
+@section('breadcrumbs')
+    <span class="text-gray-400">/</span>
+    <span class="text-gray-900 font-medium">Partner Network</span>
+@endsection
+
+@section('schema_json')
+<script type="application/ld+json">
+{!! json_encode(seo()->breadcrumbSchema([
+    'Partners' => route('partners')
+]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endsection
 
 @section('content')
 <!-- 1. Hero Section -->

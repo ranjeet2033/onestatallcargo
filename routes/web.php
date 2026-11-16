@@ -5,6 +5,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 
+Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
+
 Route::get('/', function () { 
     $services = \App\Models\Service::where('is_active', true)->get();
     $testimonials = \App\Models\Testimonial::where('is_active', true)->get();
@@ -31,6 +33,15 @@ Route::get('/privacy', function () { return view('legal', ['title' => 'Privacy P
 Route::get('/terms', function () { return view('legal', ['title' => 'Terms of Service']); })->name('terms');
 Route::get('/cookies', function () { return view('legal', ['title' => 'Cookie Policy']); })->name('cookies');
 Route::get('/franchise', function () { return view('franchise'); })->name('franchise');
+
+// Blog & Educational Content
+Route::get('/blog', [\App\Http\Controllers\BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{slug}', [\App\Http\Controllers\BlogController::class, 'show'])->name('blog.show');
+
+// Verified Locations & Serviceability
+Route::get('/locations/delhi-ncr', [\App\Http\Controllers\LocationController::class, 'delhi'])->name('locations.delhi');
+Route::get('/locations/lucknow-up', [\App\Http\Controllers\LocationController::class, 'lucknow'])->name('locations.lucknow');
+Route::get('/serviceability', [\App\Http\Controllers\LocationController::class, 'serviceability'])->name('serviceability');
 
 
 // Public Redesign Routes

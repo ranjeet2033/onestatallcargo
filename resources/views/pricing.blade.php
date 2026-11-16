@@ -1,5 +1,35 @@
 @extends('layouts.public')
-@section('title', "Calculate Shipping Rates | OneStall Cargo")
+@section('title', 'Shipping Cost Calculator | Compare Courier Rates India | OneStall')
+@section('meta_description', 'Calculate shipping rates in seconds with India\'s best shipping aggregator. Compare courier charges across top 15+ delivery partners with zero hidden fees.')
+@section('meta_keywords', 'Shipping Aggregator India, Courier Rate Calculator, Compare Courier Rates, Shipping Cost Calculator India, Cheap Courier Charges')
+
+@section('breadcrumbs')
+    <span class="text-gray-400">/</span>
+    <span class="text-gray-900 font-medium">Shipping Cost Calculator</span>
+@endsection
+
+@section('schema_json')
+<script type="application/ld+json">
+{!! json_encode([
+    '@'.'context' => 'https://schema.org',
+    '@type' => 'WebApplication',
+    'name' => 'OneStall Courier Shipping Cost Calculator',
+    'applicationCategory' => 'BusinessApplication',
+    'operatingSystem' => 'All',
+    'description' => 'Real-time multi-courier shipping price calculator and rate comparison tool for eCommerce merchants in India.',
+    'offers' => [
+        '@type' => 'Offer',
+        'price' => '0',
+        'priceCurrency' => 'INR'
+    ]
+], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+<script type="application/ld+json">
+{!! json_encode(seo()->breadcrumbSchema([
+    'Shipping Rate Calculator' => route('pricing')
+]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endsection
 
 @section('content')
 <!-- 1. Hero Section -->
@@ -18,7 +48,10 @@
         </div>
         <div class="flex-1 hidden md:flex justify-end">
             <!-- Clean, professional image presentation -->
-            <img src="/images/pricing_hero.jpg" alt="Shipping Options" class="rounded-2xl shadow-xl w-full max-w-md object-cover h-[350px]">
+            <picture>
+                <source srcset="{{ asset('images/pricing_hero.webp') }}" type="image/webp">
+                <img src="/images/pricing_hero.jpg" alt="Compare Courier Shipping Charges India" width="450" height="350" class="rounded-2xl shadow-xl w-full max-w-md object-cover h-[350px]">
+            </picture>
         </div>
     </div>
 </section>
@@ -36,7 +69,10 @@
                 <!-- Left Side: Image -->
                 <div class="hidden lg:block w-[40%]">
                     <div class="h-full w-full rounded-2xl overflow-hidden relative">
-                        <img src="/images/pricing_calculator.jpg" alt="Logistics" class="object-cover w-full h-full">
+                        <picture>
+                            <source srcset="{{ asset('images/pricing_calculator.webp') }}" type="image/webp">
+                            <img src="/images/pricing_calculator.jpg" alt="Courier Shipping Cost Calculator Form" loading="lazy" width="400" height="400" class="object-cover w-full h-full">
+                        </picture>
                         <!-- Floating Badges mimicking the reference -->
                         <div class="absolute top-1/4 right-4 bg-white p-2 rounded-lg shadow-lg">
                             <div class="bg-yellow-400 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm">&#8377;</div>

@@ -1,5 +1,32 @@
 @extends('layouts.public')
-@section('title', "B2B & Cargo Shipping Solutions | OneStall Cargo")
+
+@section('title', 'B2B Cargo Services & Bulk Freight Transport | OneStall Cargo')
+@section('meta_description', 'Streamline heavy freight with trusted B2B cargo services in India. Reliable LTL and FTL logistics, discounted commercial freight rates, and 100% transit insurance.')
+@section('meta_keywords', 'B2B Cargo Services, Bulk Shipping Services, Heavy Freight Delivery India, LTL and FTL Logistics, Commercial Freight Transport')
+
+@section('breadcrumbs')
+    <span class="text-gray-400">/</span>
+    <span class="text-gray-500">Solutions</span>
+    <span class="text-gray-400">/</span>
+    <span class="text-gray-900 font-medium">B2B Cargo</span>
+@endsection
+
+@section('schema_json')
+<script type="application/ld+json">
+{!! json_encode(seo()->serviceSchema([
+    'name' => 'OneStall B2B Cargo & Commercial Bulk Freight Logistics',
+    'type' => 'B2B Cargo & Commercial Freight',
+    'areaServed' => 'India',
+    'description' => 'Heavy commercial freight transport, full truckload (FTL), and less than truckload (LTL) cargo services across India with E-Way Bill support.'
+]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+<script type="application/ld+json">
+{!! json_encode(seo()->breadcrumbSchema([
+    'Solutions' => route('services'),
+    'B2B Cargo' => route('solutions.b2b')
+]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endsection
 
 @section('content')
 <!-- 1. Hero Section -->
@@ -8,13 +35,13 @@
         <div class="flex flex-col lg:flex-row items-center gap-12">
             <div class="w-full lg:w-1/2 text-center lg:text-left">
                 <div class="inline-block px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-brand-navy text-xs font-bold mb-4 uppercase tracking-wide">
-                    Bulk Freight & Logistics
+                    Bulk Freight & Commercial Logistics
                 </div>
                 <h1 class="text-3xl md:text-5xl font-extrabold text-brand-navy leading-tight mb-4">
-                    Heavy Freight & <span class="text-brand-red">B2B Cargo Shipping</span> Made Simple
+                    Heavy Freight &amp; <span class="text-brand-red">B2B Cargo Services</span> Made Simple
                 </h1>
                 <p class="text-base md:text-lg text-gray-700 mb-8 font-medium leading-relaxed">
-                    Move bulk inventory across warehouses, offline distributors, and retail hubs with our LTL (Less-Than-Truckload) and FTL (Full-Truckload) network at discounted freight rates.
+                    Move bulk inventory across warehouses, offline distributors, and retail hubs with our LTL (Less-Than-Truckload) and FTL (Full-Truckload) network at discounted commercial freight rates.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                     <a href="{{ route('register') }}" class="px-8 py-3.5 rounded-full bg-brand-red text-white font-bold text-base hover:bg-brand-redHover transition shadow-md shadow-red-500/20">
@@ -28,7 +55,10 @@
 
             <div class="w-full lg:w-1/2 relative">
                 <div class="relative rounded-2xl overflow-hidden shadow-xl border-4 border-white bg-white">
-                    <img src="{{ asset('images/warehouse.jpg') }}" alt="B2B Cargo Logistics" class="w-full h-80 md:h-96 object-cover">
+                    <picture>
+                        <source srcset="{{ asset('images/warehouse.webp') }}" type="image/webp">
+                        <img src="{{ asset('images/warehouse.jpg') }}" alt="B2B Cargo Services in India - OneStall Logistics Freight" width="600" height="380" class="w-full h-80 md:h-96 object-cover">
+                    </picture>
                 </div>
                 <div class="absolute -bottom-4 -left-4 bg-white p-3.5 rounded-xl shadow-lg border border-gray-100 flex items-center gap-3 z-20">
                     <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold">

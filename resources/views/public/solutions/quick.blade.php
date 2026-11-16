@@ -1,5 +1,32 @@
 @extends('layouts.public')
-@section('title', "Quick Delivery & Hyperlocal Solutions | OneStall Cargo")
+
+@section('title', 'Same Day Courier & Hyperlocal Delivery | OneStall Cargo')
+@section('meta_description', 'Fast same-day courier service and hyperlocal 2-hour bike deliveries in major cities. Live GPS tracking, instant rider dispatch, and on-demand city parcel delivery.')
+@section('meta_keywords', 'Bulk Shipping Services, Same Day Delivery India, Hyperlocal Courier Service, 2-Hour Delivery, Local Bike Logistics')
+
+@section('breadcrumbs')
+    <span class="text-gray-400">/</span>
+    <span class="text-gray-500">Solutions</span>
+    <span class="text-gray-400">/</span>
+    <span class="text-gray-900 font-medium">Quick Delivery</span>
+@endsection
+
+@section('schema_json')
+<script type="application/ld+json">
+{!! json_encode(seo()->serviceSchema([
+    'name' => 'OneStall Same-Day Courier & Hyperlocal Quick Delivery',
+    'type' => 'Hyperlocal On-Demand & Same Day Delivery',
+    'areaServed' => 'India',
+    'description' => 'Fast same-day intra-city express courier service and 2-hour hyperlocal bike deliveries powered by live GPS tracking in Indian metro cities.'
+]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+<script type="application/ld+json">
+{!! json_encode(seo()->breadcrumbSchema([
+    'Solutions' => route('services'),
+    'Quick Delivery' => route('solutions.quick')
+]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endsection
 
 @section('content')
 <!-- 1. Hero Section -->
@@ -8,13 +35,13 @@
         <div class="flex flex-col lg:flex-row items-center gap-12">
             <div class="w-full lg:w-1/2 text-center lg:text-left">
                 <div class="inline-block px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-brand-navy text-xs font-bold mb-4 uppercase tracking-wide">
-                    Express Hyperlocal Delivery
+                    Express Hyperlocal &amp; City Delivery
                 </div>
                 <h1 class="text-3xl md:text-5xl font-extrabold text-brand-navy leading-tight mb-4">
-                    Deliver Orders in <span class="text-brand-red">Hours, Not Days</span>
+                    Same-Day Courier &amp; <span class="text-brand-red">Hyperlocal Delivery</span> in India
                 </h1>
                 <p class="text-base md:text-lg text-gray-700 mb-8 font-medium leading-relaxed">
-                    Delight local customers with 2-hour hyperlocal bike deliveries and same-day intra-city express shipping powered by real-time GPS tracking.
+                    Delight local customers with 2-hour hyperlocal bike deliveries and same-day intra-city express shipping powered by real-time GPS rider tracking.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                     <a href="{{ route('register') }}" class="px-8 py-3.5 rounded-full bg-brand-red text-white font-bold text-base hover:bg-brand-redHover transition shadow-md shadow-red-500/20">
@@ -28,7 +55,10 @@
 
             <div class="w-full lg:w-1/2 relative">
                 <div class="relative rounded-2xl overflow-hidden shadow-xl border-4 border-white bg-white">
-                    <img src="{{ asset('images/mobile_app.jpg') }}" alt="Quick Delivery App" class="w-full h-80 md:h-96 object-cover">
+                    <picture>
+                        <source srcset="{{ asset('images/mobile_app.webp') }}" type="image/webp">
+                        <img src="{{ asset('images/mobile_app.jpg') }}" alt="Same Day Courier & Hyperlocal Delivery App - OneStall" width="600" height="380" class="w-full h-80 md:h-96 object-cover">
+                    </picture>
                 </div>
                 <div class="absolute -bottom-4 -left-4 bg-white p-3.5 rounded-xl shadow-lg border border-gray-100 flex items-center gap-3 z-20">
                     <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold">

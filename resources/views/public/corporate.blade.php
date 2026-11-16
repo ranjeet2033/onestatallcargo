@@ -1,5 +1,28 @@
 @extends('layouts.public')
-@section('title', "Corporate & Enterprise Logistics | OneStall Cargo")
+@section('title', 'Business Logistics Solutions & Enterprise Cargo | OneStall Cargo')
+@section('meta_description', 'Scalable business logistics solutions for corporate enterprises. Custom SLA contracts, dedicated freight trucks, ERP integration, and 15-30 day credit billing.')
+@section('meta_keywords', 'Business Logistics Solutions, Enterprise Supply Chain, Corporate Courier Contracts, Credit Billing Shipping, Dedicated Freight Fleet')
+
+@section('breadcrumbs')
+    <span class="text-gray-400">/</span>
+    <span class="text-gray-900 font-medium">Corporate Logistics</span>
+@endsection
+
+@section('schema_json')
+<script type="application/ld+json">
+{!! json_encode(seo()->serviceSchema([
+    'name' => 'OneStall Corporate & Enterprise Logistics Solutions',
+    'type' => 'Corporate Supply Chain & Enterprise Freight Logistics',
+    'areaServed' => 'India',
+    'description' => 'Customized enterprise supply chain contracts, dedicated fleet management, SAP/ERP integrations, and credit billing for corporate clients.'
+]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+<script type="application/ld+json">
+{!! json_encode(seo()->breadcrumbSchema([
+    'Corporate Logistics' => route('corporate')
+]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endsection
 
 @section('content')
 <!-- 1. Hero Section -->

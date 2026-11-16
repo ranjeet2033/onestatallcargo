@@ -1,5 +1,32 @@
 @extends('layouts.public')
-@section('title', "E-Commerce Integration Solutions | OneStall Cargo")
+
+@section('title', 'E-Commerce Shipping Solutions & Courier Aggregator India | OneStall')
+@section('meta_description', 'All-in-one e-commerce shipping solutions in India. Integrate Shopify, WooCommerce, and marketplaces to automate AWB generation, courier allocation, and NDR tracking.')
+@section('meta_keywords', 'E-commerce Shipping Solutions, Shipping Aggregator India, Multi-Carrier Logistics, Shopify Courier Integration, WooCommerce Shipping')
+
+@section('breadcrumbs')
+    <span class="text-gray-400">/</span>
+    <span class="text-gray-500">Solutions</span>
+    <span class="text-gray-400">/</span>
+    <span class="text-gray-900 font-medium">E-Commerce Integration</span>
+@endsection
+
+@section('schema_json')
+<script type="application/ld+json">
+{!! json_encode(seo()->serviceSchema([
+    'name' => 'OneStall E-Commerce Shipping Solutions & Store Aggregator',
+    'type' => 'E-Commerce Shipping Aggregation & Integration',
+    'areaServed' => 'India',
+    'description' => 'Automated e-commerce shipping integration for Shopify, WooCommerce, Magento, and custom stores with instant AWB generation and multi-carrier courier allocation.'
+]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+<script type="application/ld+json">
+{!! json_encode(seo()->breadcrumbSchema([
+    'Solutions' => route('services'),
+    'E-Commerce Integration' => route('solutions.ecommerce')
+]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endsection
 
 @section('content')
 <!-- 1. Hero Section -->
@@ -8,13 +35,13 @@
         <div class="flex flex-col lg:flex-row items-center gap-12">
             <div class="w-full lg:w-1/2 text-center lg:text-left">
                 <div class="inline-block px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-brand-navy text-xs font-bold mb-4 uppercase tracking-wide">
-                    Seamless Store Integrations
+                    E-Commerce Shipping Solutions &amp; Integrations
                 </div>
                 <h1 class="text-3xl md:text-5xl font-extrabold text-brand-navy leading-tight mb-4">
-                    Integrate Your E-Commerce Store in <span class="text-brand-red">Under 5 Minutes</span>
+                    E-Commerce Shipping Solutions &amp; <span class="text-brand-red">Courier Aggregator</span>
                 </h1>
                 <p class="text-base md:text-lg text-gray-700 mb-8 font-medium leading-relaxed">
-                    Pre-built 1-click plugins for Shopify, WooCommerce, Magento, and custom REST APIs to automate order import, tracking sync, and inventory updates.
+                    Connect your store in under 5 minutes. Pre-built 1-click plugins for Shopify, WooCommerce, Magento, and custom REST APIs to automate order import, courier allocation, AWB generation, and tracking sync.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                     <a href="{{ route('register') }}" class="px-8 py-3.5 rounded-full bg-brand-red text-white font-bold text-base hover:bg-brand-redHover transition shadow-md shadow-red-500/20">
@@ -28,7 +55,10 @@
 
             <div class="w-full lg:w-1/2 relative">
                 <div class="relative rounded-2xl overflow-hidden shadow-xl border-4 border-white bg-white">
-                    <img src="{{ asset('images/dashboard.jpg') }}" alt="E-Commerce Integration Dashboard" class="w-full h-80 md:h-96 object-cover">
+                    <picture>
+                        <source srcset="{{ asset('images/dashboard.webp') }}" type="image/webp">
+                        <img src="{{ asset('images/dashboard.jpg') }}" alt="E-Commerce Shipping Solutions & Courier Aggregator India" width="600" height="380" class="w-full h-80 md:h-96 object-cover">
+                    </picture>
                 </div>
                 <div class="absolute -bottom-4 -left-4 bg-white p-3.5 rounded-xl shadow-lg border border-gray-100 flex items-center gap-3 z-20">
                     <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold">

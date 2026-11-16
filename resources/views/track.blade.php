@@ -1,5 +1,29 @@
 @extends('layouts.public')
-@section('title', 'Track Shipment | OneStall Cargo')
+@section('title', 'Track Shipment Online | Live Courier Tracking India | OneStall Cargo')
+@section('meta_description', 'Track your courier shipment in real time across India. Enter your AWB number to get instant live GPS status, delivery milestones, and expected arrival date.')
+@section('meta_keywords', 'Live Courier Tracking India, Track Consignment AWB, Real Time Parcel Tracking, Track Order Online, Delivery Status Check')
+
+@section('breadcrumbs')
+    <span class="text-gray-400">/</span>
+    <span class="text-gray-900 font-medium">Track Shipment</span>
+@endsection
+
+@section('schema_json')
+<script type="application/ld+json">
+{!! json_encode([
+    '@'.'context' => 'https://schema.org',
+    '@type' => 'WebApplication',
+    'name' => 'OneStall Live Courier Tracking Tool',
+    'applicationCategory' => 'BusinessApplication',
+    'description' => 'Real-time multi-courier shipment tracking by AWB number or order ID across all major carriers in India.'
+], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+<script type="application/ld+json">
+{!! json_encode(seo()->breadcrumbSchema([
+    'Track Shipment' => route('track')
+]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endsection
 
 @section('content')
 <!-- Minimalist Hero & Search Section -->

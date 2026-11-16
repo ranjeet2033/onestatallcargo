@@ -1,7 +1,8 @@
 @extends('layouts.public')
 
-@section('title', 'OneStall Cargo | Leading Logistics & Courier Solutions')
-@section('meta_description', 'OneStall Cargo is India\'s premier tech-enabled courier and logistics company. Seamless B2C express shipping, B2B cargo delivery, nationwide franchise hubs, and automated business shipping.')
+@section('title', 'Courier Service in India | OneStall Cargo Logistics')
+@section('meta_description', 'Reliable courier service in India for eCommerce and B2B brands. Deliver to 29,000+ pin codes with 15+ top couriers, automated NDR, and 1-2 day COD remittance.')
+@section('meta_keywords', 'Courier Service in India, Shipping Company in India, E-commerce Shipping Solutions, Shipping Aggregator India, Express Courier India')
 
 @section('content')
 <!-- 1. Hero Section -->
@@ -12,20 +13,21 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col lg:flex-row items-center">
         <!-- Left Side -->
         <div class="w-full lg:w-1/2 flex flex-col justify-center text-center lg:text-left lg:pr-8">
-            <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-brand-navy leading-tight tracking-tight mb-1">
-                {{ setting('hero_title1', 'eCommerce Shipping') }}
-            </h1>
-            <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-brand-red leading-tight tracking-tight mb-4">
-                {{ setting('hero_title2', 'Built for the Bold') }}
+            <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight mb-4">
+                <span class="text-brand-navy block mb-1">Courier Service in India &amp; eCommerce Shipping</span>
+                <span class="text-brand-red">Built for Business Growth &amp; Scale</span>
             </h1>
             <p class="text-base md:text-lg text-gray-700 mb-6 font-medium max-w-md mx-auto lg:mx-0 leading-relaxed">
-                Fuel your ambition with next-gen eCommerce logistics - engineered for speed, scale, and simplicity.
+                Fuel your business ambition with India's premier tech-enabled courier and cargo aggregator. 29,000+ pin codes, 15+ delivery partners, automated NDR, and 1-2 day COD remittance.
             </p>
 
             <!-- CTA -->
-            <div>
+            <div class="flex flex-wrap gap-3 justify-center lg:justify-start">
                 <a href="{{ route('register') }}" class="inline-block bg-brand-red text-white font-bold text-base px-7 py-3 rounded-full hover:bg-brand-redHover transition-colors shadow-md shadow-red-500/20">
-                    Get Started
+                    Start Shipping Free
+                </a>
+                <a href="{{ route('pricing') }}" class="inline-block border-2 border-brand-navy text-brand-navy font-bold text-base px-6 py-3 rounded-full hover:bg-brand-navy hover:text-white transition-colors">
+                    Check Shipping Rates
                 </a>
             </div>
         </div>
@@ -35,7 +37,10 @@
             
             <!-- Main Character Image (Clean Minimal Card) -->
             <div class="relative z-10 w-3/4 h-full rounded-2xl shadow-md border-2 border-white overflow-hidden bg-white">
-                <img src="{{ asset('images/ecommerce_boy.jpg') }}" alt="eCommerce Logistics" class="w-full h-full object-cover object-center">
+                <picture>
+                    <source srcset="{{ asset('images/ecommerce_boy.webp') }}" type="image/webp">
+                    <img src="{{ asset('images/ecommerce_boy.jpg') }}" alt="Courier Service in India - OneStall eCommerce Logistics" width="400" height="380" class="w-full h-full object-cover object-center">
+                </picture>
             </div>
 
             <!-- Floating UI Elements -->
@@ -138,7 +143,10 @@
         <div class="flex flex-col md:flex-row items-center gap-8 mb-12">
             <div class="w-full md:w-1/2">
                 <div class="bg-gray-50 rounded-xl h-80 md:h-96 relative overflow-hidden border border-gray-100 p-2 shadow-sm">
-                    <img src="{{ asset('images/dashboard.jpg') }}" alt="Logistics Dashboard" class="w-full h-full object-cover rounded-lg">
+                    <picture>
+                        <source srcset="{{ asset('images/dashboard.webp') }}" type="image/webp">
+                        <img src="{{ asset('images/dashboard.jpg') }}" alt="Express COD Remittance Logistics Dashboard" loading="lazy" width="600" height="380" class="w-full h-full object-cover rounded-lg">
+                    </picture>
                 </div>
             </div>
             <div class="w-full md:w-1/2">
@@ -156,7 +164,10 @@
         <div class="flex flex-col md:flex-row-reverse items-center gap-8 mb-12">
             <div class="w-full md:w-1/2">
                 <div class="bg-gray-50 rounded-xl h-80 md:h-96 relative overflow-hidden border border-gray-100 p-2 shadow-sm">
-                    <img src="{{ asset('images/warehouse.jpg') }}" alt="Warehouse Logistics" class="w-full h-full object-cover rounded-lg">
+                    <picture>
+                        <source srcset="{{ asset('images/warehouse.webp') }}" type="image/webp">
+                        <img src="{{ asset('images/warehouse.jpg') }}" alt="Automated Courier Allocation Warehouse" loading="lazy" width="600" height="380" class="w-full h-full object-cover rounded-lg">
+                    </picture>
                 </div>
             </div>
             <div class="w-full md:w-1/2">
@@ -174,7 +185,10 @@
         <div class="flex flex-col md:flex-row items-center gap-8">
             <div class="w-full md:w-1/2">
                 <div class="bg-gray-50 rounded-xl h-80 md:h-96 relative overflow-hidden border border-gray-100 p-2 shadow-sm">
-                    <img src="{{ asset('images/dashboard.jpg') }}" alt="Data Analytics" class="w-full h-full object-cover rounded-lg">
+                    <picture>
+                        <source srcset="{{ asset('images/dashboard.webp') }}" type="image/webp">
+                        <img src="{{ asset('images/dashboard.jpg') }}" alt="Automated NDR Management & RTO Reduction" loading="lazy" width="600" height="380" class="w-full h-full object-cover rounded-lg">
+                    </picture>
                 </div>
             </div>
             <div class="w-full md:w-1/2">
@@ -322,7 +336,10 @@
                 <h3 class="text-xl font-bold text-gray-900 mb-2">Powering E-commerce Deliveries</h3>
                 <p class="text-gray-600 text-sm mb-4">Ship to 29,000+ pin codes seamlessly. Give your customers a premium post-purchase tracking experience.</p>
                 <div class="h-64 rounded-lg overflow-hidden border border-gray-100">
-                    <img src="{{ asset('images/dashboard.jpg') }}" alt="B2C Shipping" class="w-full h-full object-cover">
+                    <picture>
+                        <source srcset="{{ asset('images/dashboard.webp') }}" type="image/webp">
+                        <img src="{{ asset('images/dashboard.jpg') }}" alt="B2C Express Courier Shipping Dashboard" loading="lazy" width="600" height="260" class="w-full h-full object-cover">
+                    </picture>
                 </div>
             </div>
             
@@ -334,7 +351,10 @@
                 <h3 class="text-xl font-bold text-gray-900 mb-2">Heavy Shipments Made Easy</h3>
                 <p class="text-gray-600 text-sm mb-4">Move bulk inventory across warehouses or to offline distributors with our dedicated B2B cargo services at discounted rates.</p>
                 <div class="h-64 rounded-lg overflow-hidden border border-gray-100">
-                    <img src="{{ asset('images/warehouse.jpg') }}" alt="B2B Cargo" class="w-full h-full object-cover">
+                    <picture>
+                        <source srcset="{{ asset('images/warehouse.webp') }}" type="image/webp">
+                        <img src="{{ asset('images/warehouse.jpg') }}" alt="B2B Commercial Cargo Warehouse" loading="lazy" width="600" height="260" class="w-full h-full object-cover">
+                    </picture>
                 </div>
             </div>
         </div>
@@ -405,7 +425,10 @@
             
             <div class="w-full md:w-1/2 flex justify-center">
                 <div class="w-64 h-[420px] rounded-[1.8rem] shadow-xl relative overflow-hidden border-4 border-gray-800">
-                    <img src="{{ asset('images/mobile_app.jpg') }}" alt="Mobile Tracking App" class="w-full h-full object-cover">
+                    <picture>
+                        <source srcset="{{ asset('images/mobile_app.webp') }}" type="image/webp">
+                        <img src="{{ asset('images/mobile_app.jpg') }}" alt="OneStall Mobile Courier Tracking App" loading="lazy" width="250" height="420" class="w-full h-full object-cover">
+                    </picture>
                 </div>
             </div>
         </div>
@@ -418,7 +441,10 @@
         <div class="flex flex-col lg:flex-row items-center gap-8">
             <div class="w-full lg:w-1/2">
                 <div class="w-full h-72 lg:h-80 rounded-xl overflow-hidden shadow-xl relative">
-                    <img src="{{ asset('images/warehouse.jpg') }}" alt="B2B Express Freight" class="w-full h-full object-cover">
+                    <picture>
+                        <source srcset="{{ asset('images/warehouse.webp') }}" type="image/webp">
+                        <img src="{{ asset('images/warehouse.jpg') }}" alt="B2B Heavy Cargo & Freight Truckload Transport" loading="lazy" width="600" height="320" class="w-full h-full object-cover">
+                    </picture>
                     <div class="absolute inset-0 bg-brand-navy/50 flex items-center justify-center">
                         <div class="text-lg font-bold tracking-widest text-white backdrop-blur-sm px-5 py-2 rounded border border-white/30">B2B EXPRESS FREIGHT</div>
                     </div>

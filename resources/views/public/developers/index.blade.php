@@ -1,5 +1,30 @@
 @extends('layouts.public')
-@section('title', "Developer Platform & Shipping APIs | OneStall Cargo")
+@section('title', 'Logistics API Integration & Shipping APIs | OneStall Cargo')
+@section('meta_description', 'Developer-first logistics API integration for e-commerce platforms. Instant rate comparison, AWB generation, live tracking webhooks, and sandbox testing keys.')
+@section('meta_keywords', 'Logistics API Integration, Shipping API India, Courier Booking API, Tracking Webhook API, Automated AWB Generation API')
+
+@section('breadcrumbs')
+    <span class="text-gray-400">/</span>
+    <span class="text-gray-900 font-medium">Developer Platform</span>
+@endsection
+
+@section('schema_json')
+<script type="application/ld+json">
+{!! json_encode([
+    '@'.'context' => 'https://schema.org',
+    '@type' => 'SoftwareSourceCode',
+    'name' => 'OneStall Cargo RESTful Shipping API',
+    'programmingLanguage' => 'REST / JSON',
+    'codeRepository' => 'https://onestallcargo.com/docs',
+    'description' => 'Scalable logistics APIs for e-commerce order booking, multi-carrier rate calculation, automated AWB generation, and real-time tracking webhooks.'
+], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+<script type="application/ld+json">
+{!! json_encode(seo()->breadcrumbSchema([
+    'Developers' => route('developers')
+]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endsection
 
 @section('content')
 <!-- 1. Hero Section -->

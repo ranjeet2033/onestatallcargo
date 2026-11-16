@@ -1,5 +1,32 @@
 @extends('layouts.public')
-@section('title', "International Shipping Solutions | OneStall Cargo")
+
+@section('title', 'International Courier Services from India | Express Air Cargo | OneStall')
+@section('meta_description', 'Ship parcels worldwide to 220+ countries with premier international courier services. Automated customs clearance, door-to-door tracking, and competitive air rates.')
+@section('meta_keywords', 'International Courier Services, Cross-Border Shipping India, Export Courier Service, Global Air Freight, Customs Clearance Logistics')
+
+@section('breadcrumbs')
+    <span class="text-gray-400">/</span>
+    <span class="text-gray-500">Solutions</span>
+    <span class="text-gray-400">/</span>
+    <span class="text-gray-900 font-medium">International Shipping</span>
+@endsection
+
+@section('schema_json')
+<script type="application/ld+json">
+{!! json_encode(seo()->serviceSchema([
+    'name' => 'OneStall International Courier & Air Cargo Services',
+    'type' => 'International Air Courier & Cross-Border Logistics',
+    'areaServed' => 'Worldwide',
+    'description' => 'Worldwide express parcel courier and international air freight delivery from India to over 220 countries with paperless customs clearance.'
+]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+<script type="application/ld+json">
+{!! json_encode(seo()->breadcrumbSchema([
+    'Solutions' => route('services'),
+    'International Shipping' => route('solutions.international')
+]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endsection
 
 @section('content')
 <!-- 1. Hero Section -->
@@ -8,27 +35,30 @@
         <div class="flex flex-col lg:flex-row items-center gap-12">
             <div class="w-full lg:w-1/2 text-center lg:text-left">
                 <div class="inline-block px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-brand-navy text-xs font-bold mb-4 uppercase tracking-wide">
-                    Cross-Border E-Commerce
+                    Cross-Border Global Logistics
                 </div>
                 <h1 class="text-3xl md:text-5xl font-extrabold text-brand-navy leading-tight mb-4">
-                    Ship Worldwide to <span class="text-brand-red">220+ Countries</span> Effortlessly
+                    International Courier Services to <span class="text-brand-red">220+ Countries</span>
                 </h1>
                 <p class="text-base md:text-lg text-gray-700 mb-8 font-medium leading-relaxed">
-                    Expand your brand globally with express international air courier services, hassle-free customs clearance, and Duty Delivered Paid (DDP) options.
+                    Expand your brand globally with express international air courier services, automated commercial invoices, hassle-free customs clearance, and competitive worldwide air rates.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                     <a href="{{ route('register') }}" class="px-8 py-3.5 rounded-full bg-brand-red text-white font-bold text-base hover:bg-brand-redHover transition shadow-md shadow-red-500/20">
                         Start Global Shipping
                     </a>
                     <a href="{{ route('contact') }}" class="px-8 py-3.5 rounded-full border-2 border-brand-navy text-brand-navy font-bold text-base hover:bg-brand-navy hover:text-white transition">
-                        Explore Rates
+                        Explore International Rates
                     </a>
                 </div>
             </div>
 
             <div class="w-full lg:w-1/2 relative">
                 <div class="relative rounded-2xl overflow-hidden shadow-xl border-4 border-white bg-white">
-                    <img src="{{ asset('images/dashboard.jpg') }}" alt="International Shipping" class="w-full h-80 md:h-96 object-cover">
+                    <picture>
+                        <source srcset="{{ asset('images/dashboard.webp') }}" type="image/webp">
+                        <img src="{{ asset('images/dashboard.jpg') }}" alt="International Courier Services from India - OneStall Cargo" width="600" height="380" class="w-full h-80 md:h-96 object-cover">
+                    </picture>
                 </div>
                 <div class="absolute -bottom-4 -left-4 bg-white p-3.5 rounded-xl shadow-lg border border-gray-100 flex items-center gap-3 z-20">
                     <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold">

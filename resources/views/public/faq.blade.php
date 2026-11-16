@@ -1,5 +1,24 @@
 @extends('layouts.public')
-@section('title', "Frequently Asked Questions (FAQ) | OneStall Cargo")
+
+@section('title', 'Courier & Shipping FAQs | OneStall Cargo Help Center')
+@section('meta_description', 'Answers to frequently asked questions about OneStall Cargo shipping rates, COD remittance cycles, courier partner integrations, NDR resolution, and franchise setup.')
+@section('meta_keywords', 'Courier Service FAQs India, Shipping Queries, COD Remittance Process, NDR Management FAQs, E-commerce Logistics Help')
+
+@section('breadcrumbs')
+    <span class="text-gray-400">/</span>
+    <span class="text-gray-900 font-medium">Frequently Asked Questions</span>
+@endsection
+
+@section('schema_json')
+<script type="application/ld+json">
+{!! json_encode(seo()->faqSchema($faqs), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+<script type="application/ld+json">
+{!! json_encode(seo()->breadcrumbSchema([
+    'FAQs' => route('faq')
+]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endsection
 
 @section('content')
 <div class="bg-gray-50/50 py-10 md:py-12" x-data="faqApp()">

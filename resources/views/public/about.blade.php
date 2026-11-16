@@ -1,5 +1,29 @@
 @extends('layouts.public')
-@section('title', "About Us | OneStall Cargo")
+@section('title', 'About OneStall Cargo | Tech-Driven Logistics Infrastructure')
+@section('meta_description', 'Learn about OneStall Cargo (Anyurva Ayurveda Pvt. Ltd.), powering 10,000+ businesses with automated multi-courier shipping, transparent pricing, and nationwide hubs.')
+@section('meta_keywords', 'Best Shipping Company in India, Tech-Enabled Logistics Company, Supply Chain Infrastructure India, Anyurva Ayurveda Pvt Ltd')
+
+@section('breadcrumbs')
+    <span class="text-gray-400">/</span>
+    <span class="text-gray-900 font-medium">About Us</span>
+@endsection
+
+@section('schema_json')
+<script type="application/ld+json">
+{!! json_encode([
+    '@'.'context' => 'https://schema.org',
+    '@type' => 'AboutPage',
+    'name' => 'About OneStall Cargo',
+    'url' => route('about'),
+    'description' => 'Background, corporate identity, mission, and national logistics infrastructure of OneStall Cargo and Anyurva Ayurveda Private Limited.'
+], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+<script type="application/ld+json">
+{!! json_encode(seo()->breadcrumbSchema([
+    'About Us' => route('about')
+]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endsection
 
 @section('content')
 <!-- 1. Hero Section -->

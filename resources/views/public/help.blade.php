@@ -1,5 +1,20 @@
 @extends('layouts.public')
-@section('title', "Help Center & Seller Support | OneStall Cargo")
+@section('title', 'Help Center & Shipper Support | OneStall Cargo')
+@section('meta_description', 'Access shipper onboarding guides, troubleshooting articles, and 24/7 dedicated logistics support for seamless order fulfillment and delivery operations.')
+@section('meta_keywords', 'Seller Logistics Support, Onboarding Shipping Guide, Courier Dispute Support, Weight Dispute Help, Logistics Assistance')
+
+@section('breadcrumbs')
+    <span class="text-gray-400">/</span>
+    <span class="text-gray-900 font-medium">Help Center</span>
+@endsection
+
+@section('schema_json')
+<script type="application/ld+json">
+{!! json_encode(seo()->breadcrumbSchema([
+    'Help Center' => route('help')
+]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endsection
 
 @section('content')
 <!-- 1. Hero Section -->
