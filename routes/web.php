@@ -43,18 +43,7 @@ Route::get('/locations/delhi-ncr', [\App\Http\Controllers\LocationController::cl
 Route::get('/locations/lucknow-up', [\App\Http\Controllers\LocationController::class, 'lucknow'])->name('locations.lucknow');
 Route::get('/serviceability', [\App\Http\Controllers\LocationController::class, 'serviceability'])->name('serviceability');
 
-Route::get('/system/update-phone/{secret}', function ($secret) {
-    if ($secret !== 'onestall-phone-2026') {
-        abort(403);
-    }
-    \App\Models\Setting::updateOrCreate(
-        ['key' => 'site_phone'],
-        ['value' => '+91 73764 90981', 'group' => 'contact']
-    );
-    \Illuminate\Support\Facades\Cache::forget('global_settings');
-    \Illuminate\Support\Facades\Artisan::call('optimize:clear');
-    return response()->json(['status' => 'success', 'site_phone' => setting('site_phone')]);
-});
+
 
 
 
