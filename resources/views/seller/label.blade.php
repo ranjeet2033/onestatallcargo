@@ -1,8 +1,8 @@
 @php
     $isThirdParty = !empty($shipment->courier_awb) || (!empty($shipment->courier_partner) && stripos($shipment->courier_partner, 'onestall') === false);
     $activeAwb = !empty($shipment->courier_awb) ? $shipment->courier_awb : $shipment->awb_number;
-    $courierTitle = $isThirdParty && !empty($shipment->courier_partner) ? strtoupper($shipment->courier_partner) : 'ONESTALL CARGO';
-    $courierSubtitle = $isThirdParty ? 'Fulfilled via OneStall Cargo' : 'delivering logistics happiness';
+    $courierTitle = 'ONESTALL CARGO';
+    $courierSubtitle = 'delivering logistics happiness';
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -201,9 +201,6 @@
     <div class="no-print-bar">
         <div class="info">
             AWB: {{ $activeAwb }}
-            @if($isThirdParty)
-                <span style="margin-left: 8px; font-size: 10px; color: #4338ca; background: #eef2ff; padding: 2px 6px; rounded: 4px;">{{ $shipment->courier_partner }}</span>
-            @endif
         </div>
         <div class="btns">
             <button type="button" onclick="window.print()" class="btn-print">
@@ -231,9 +228,6 @@
         <div class="label-row">
             <div class="cell-left">
                 <div>AWB NO: <span style="font-weight: 800;">{{ $activeAwb }}</span></div>
-                @if($isThirdParty)
-                    <div style="font-size: 9px; color: #444; margin-top: 1px;">Courier: <strong>{{ $shipment->courier_partner }}</strong></div>
-                @endif
             </div>
             <div class="cell-right">
                 <div style="font-weight: 800; font-size: 13px;">

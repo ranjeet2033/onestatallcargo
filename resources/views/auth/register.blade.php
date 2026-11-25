@@ -83,6 +83,27 @@
                 </div>
             </div>
 
+            <!-- Referral Code -->
+            @if(!empty($referralCode))
+                <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 flex items-center justify-between text-xs">
+                    <span class="text-emerald-800 font-semibold flex items-center gap-2">
+                        <i class="fa-solid fa-gift text-emerald-600"></i> Referred with code: <strong class="uppercase tracking-wider">{{ $referralCode }}</strong>
+                    </span>
+                    <span class="text-[10px] bg-emerald-200/80 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">Applied</span>
+                </div>
+                <input type="hidden" name="referral_code" value="{{ $referralCode }}">
+            @else
+                <div x-data="{ open: false }" class="pt-1">
+                    <button type="button" @click="open = !open" class="text-xs font-semibold text-brand-navy hover:underline flex items-center gap-1">
+                        <i class="fa-solid fa-tag text-[10px]"></i> Have a referral code?
+                    </button>
+                    <div x-show="open" x-cloak class="mt-2 space-y-1">
+                        <label class="block text-xs font-bold text-gray-700">Referral Code (Optional)</label>
+                        <input type="text" name="referral_code" value="{{ old('referral_code') }}" placeholder="e.g. OSCABC123" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-brand-navy uppercase tracking-wider">
+                    </div>
+                </div>
+            @endif
+
             <button type="submit" class="w-full py-3.5 px-4 rounded-xl bg-brand-red hover:bg-brand-redHover text-white font-extrabold text-sm shadow-md shadow-red-500/20 transition-all duration-200 mt-2">
                 Create Account & Start Shipping &rarr;
             </button>

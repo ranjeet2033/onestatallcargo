@@ -151,6 +151,8 @@ Route::get('/faq', function (\Illuminate\Http\Request $request) {
     return view('public.faq', compact('faqs')); 
 })->name('faq');
 Route::get('/help', function () { return view('public.help'); })->name('help');
+Route::get('/ref/{code}', [\App\Http\Controllers\ReferralController::class, 'handleRefLink'])->middleware('throttle:60,1')->name('referral.link');
+
 // Auth Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -278,6 +280,18 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/billing', [\App\Http\Controllers\AdminBillingController::class, 'index'])->name('admin.billing.index');
             Route::post('/billing/{id}/pay', [\App\Http\Controllers\AdminBillingController::class, 'recordPayment'])->name('admin.billing.pay');
             Route::get('/billing/invoices', [\App\Http\Controllers\AdminBillingController::class, 'invoices'])->name('admin.billing.invoices');
+
+            // Seller Referral & Earn Engine
+            Route::get('/referrals', [\App\Http\Controllers\AdminReferralController::class, 'index'])->name('admin.referrals.index');
+            Route::post('/referrals/rules', [\App\Http\Controllers\AdminReferralController::class, 'storeRule'])->name('admin.referrals.rules.store');
+            Route::post('/referrals/rules/{id}', [\App\Http\Controllers\AdminReferralController::class, 'updateRule'])->name('admin.referrals.rules.update');
+            Route::post('/referrals/commissions/{id}/status', [\App\Http\Controllers\AdminReferralController::class, 'updateCommissionStatus'])->name('admin.referrals.commission.status');
+            Route::post('/referrals/commissions/bulk-approve', [\App\Http\Controllers\AdminReferralController::class, 'bulkApproveCommissions'])->name('admin.referrals.commissions.bulk-approve');
+            Route::post('/referrals/payouts/{id}/process', [\App\Http\Controllers\AdminReferralController::class, 'processPayout'])->name('admin.referrals.payouts.process');
+            Route::post('/referrals/sellers/{id}/code', [\App\Http\Controllers\AdminReferralController::class, 'regenerateReferralCode'])->name('admin.referrals.sellers.code');
+            Route::post('/referrals/investigate', [\App\Http\Controllers\AdminReferralController::class, 'investigateTarget'])->name('admin.referrals.investigate');
+            Route::get('/referrals/export/commissions', [\App\Http\Controllers\AdminReferralController::class, 'exportCommissionsCsv'])->name('admin.referrals.export.commissions');
+            Route::get('/referrals/export/payouts', [\App\Http\Controllers\AdminReferralController::class, 'exportPayoutsCsv'])->name('admin.referrals.export.payouts');
             // Rate Cards
             Route::post('/ratecards/{id}/duplicate', [\App\Http\Controllers\AdminRateCardController::class, 'duplicate'])->name('admin.ratecards.duplicate');
             Route::post('/ratecards/{id}/activate', [\App\Http\Controllers\AdminRateCardController::class, 'activate'])->name('admin.ratecards.activate');
@@ -305,6 +319,10 @@ Route::middleware(['auth'])->group(function () {
     // SELLER PORTAL (Requires Seller Role)
     Route::middleware(['role:seller,aggregator,b2b_customer,corporate', 'check.kyc'])->prefix('seller')->group(function () {
         Route::get('/dashboard', [\App\Http\Controllers\SellerDashboardController::class, 'index'])->name('seller.dashboard');
+        Route::get('/referrals', [\App\Http\Controllers\ReferralController::class, 'sellerDashboard'])->name('seller.referrals');
+        Route::post('/referrals/payout-methods', [\App\Http\Controllers\ReferralController::class, 'savePayoutMethod'])->middleware('throttle:15,1')->name('seller.referrals.payout-methods.store');
+        Route::post('/referrals/withdraw', [\App\Http\Controllers\ReferralController::class, 'requestPayout'])->middleware('throttle:10,1')->name('seller.referrals.withdraw');
+        Route::post('/referrals/transfer-wallet', [\App\Http\Controllers\ReferralController::class, 'transferToWallet'])->middleware('throttle:10,1')->name('seller.referrals.transfer-wallet');
         
         // KYC Submission
         Route::post('/kyc/submit', [\App\Http\Controllers\KycController::class, 'submit'])->name('seller.kyc.submit');

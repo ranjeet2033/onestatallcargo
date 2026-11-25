@@ -11,7 +11,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $helper = app_path('Helpers/SettingsHelper.php');
+        if (file_exists($helper)) {
+            require_once $helper;
+        }
     }
 
     /**
@@ -19,6 +22,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        \App\Models\Shipment::observe(\App\Observers\ShipmentObserver::class);
     }
 }

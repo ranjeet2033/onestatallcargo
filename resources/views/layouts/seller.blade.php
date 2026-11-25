@@ -199,6 +199,13 @@
                 <span x-show="sidebarHover || isPinned || mobileSidebarOpen" x-transition.opacity class="ml-3 whitespace-nowrap font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#5d16c5] to-[#0ea5e9]">Early COD</span>
             </a>
 
+            <a href="{{ route('seller.referrals') }}" class="sidebar-item {{ request()->routeIs('seller.referrals') ? 'active' : '' }}" title="Refer & Earn">
+                <div class="icon-box">
+                    <i class="fa-solid fa-gift text-emerald-500 text-base"></i>
+                </div>
+                <span x-show="sidebarHover || isPinned || mobileSidebarOpen" x-transition.opacity class="ml-3 whitespace-nowrap font-bold text-emerald-600">Refer & Earn</span>
+            </a>
+
             <!-- Channels / Integrations -->
             <a href="{{ route('seller.integrations') }}" class="sidebar-item {{ request()->routeIs('seller.integrations*') ? 'active' : '' }}" title="Store Integrations">
                 <div class="icon-box">

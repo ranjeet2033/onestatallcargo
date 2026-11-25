@@ -60,12 +60,20 @@ class AuthController extends Controller
         ])->onlyInput('email');
     }
 
-    public function showRegister()
+    public function showRegister(Request $request)
     {
         if (Auth::check()) {
             return $this->redirectBasedOnRole(Auth::user());
         }
-        return view('auth.register');
+
+        $referralService = app(\App\Services\ReferralService::class);
+        if ($request->filled('ref')) {
+            $referralService->recordClick($request->query('ref'), $request);
+        }
+
+        $referralCode = $referralService->resolveActiveCode($request);
+
+        return view('auth.register', compact('referralCode'));
     }
 
     public function register(Request $request)
@@ -75,6 +83,7 @@ class AuthController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'phone' => ['nullable', 'string', 'max:15'],
+            'referral_code' => ['nullable', 'string', 'max:30'],
         ]);
 
         $user = User::create([
@@ -84,6 +93,18 @@ class AuthController extends Controller
             'phone' => $validated['phone'] ?? null,
             'role' => 'seller', // default public signups are sellers
         ]);
+
+        // Permanent referral attribution (idempotent, prevents self/duplicate referrals)
+        try {
+            app(\App\Services\ReferralService::class)->attributeRegistration(
+                $user,
+                $request->input('referral_code'),
+                null,
+                $request
+            );
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('Referral attribution failed during register: ' . $e->getMessage());
+        }
 
         Auth::login($user);
 
@@ -167,6 +188,13 @@ class AuthController extends Controller
                 $newUser->status = 'active'; // Sellers don't need initial admin approval, just KYC later
                 $newUser->save();
                 
+                // Permanent referral attribution for Google signups
+                try {
+                    app(\App\Services\ReferralService::class)->attributeRegistration($newUser, null, null, request());
+                } catch (\Throwable $e) {
+                    \Illuminate\Support\Facades\Log::warning('Referral attribution failed during Google signup: ' . $e->getMessage());
+                }
+
                 Auth::login($newUser, true);
                 return redirect()->route('seller.dashboard');
             }

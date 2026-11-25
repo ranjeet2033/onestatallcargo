@@ -300,7 +300,7 @@ class HubAddressAndBookingTest extends TestCase
         $this->assertEquals(5, $shipment->height_cm);
         $this->assertEquals('Prepaid', $shipment->payment_type);
         $this->assertFalse((bool)$shipment->is_cod);
-        $this->assertEquals('Manifested', $shipment->status);
+        $this->assertEquals('New', $shipment->status);
 
         // Verify wallet was debited
         $updatedBalance = $this->hubUser->fresh()->wallet_balance;
@@ -317,7 +317,7 @@ class HubAddressAndBookingTest extends TestCase
         // Verify ShipmentEvent created
         $this->assertDatabaseHas('shipment_events', [
             'shipment_id' => $shipment->id,
-            'status' => 'Manifested',
+            'status' => 'New',
         ]);
     }
 
@@ -514,11 +514,14 @@ class HubAddressAndBookingTest extends TestCase
 
         $response = $this->actingAs($this->hubUser)
             ->from(route('hub.shipments'))
-            ->post(route('hub.shipments.shipNow', $shipment->id));
+            ->post(route('hub.shipments.shipNow', $shipment->id), [
+                'courier_partner' => 'OneStall Express',
+                'shipping_charge' => 70.00,
+            ]);
 
         $response->assertStatus(302);
         $response->assertRedirect(route('hub.shipments'));
-        $response->assertSessionHas('success', 'Shipment successfully marked as Pickup Scheduled.');
+        $response->assertSessionHas('success', 'Shipment successfully assigned to OneStall Express and scheduled for pickup.');
 
         $shipment->refresh();
         $this->assertEquals('Pickup Scheduled', $shipment->status);
@@ -526,7 +529,7 @@ class HubAddressAndBookingTest extends TestCase
         $this->assertDatabaseHas('shipment_events', [
             'shipment_id' => $shipment->id,
             'status' => 'Pickup Scheduled',
-            'remarks' => 'Shipment successfully marked for pickup.',
+            'remarks' => 'Shipment assigned to OneStall Express',
         ]);
     }
 
@@ -570,7 +573,7 @@ class HubAddressAndBookingTest extends TestCase
 
         $response->assertStatus(302);
         $response->assertRedirect(route('hub.shipments'));
-        $response->assertSessionHas('success', 'Shipment successfully assigned to Delhivery Air and marked for pickup.');
+        $response->assertSessionHas('success', 'Shipment successfully assigned to Delhivery Air and scheduled for pickup.');
 
         $shipment->refresh();
         $this->assertEquals('Pickup Scheduled', $shipment->status);

@@ -18,10 +18,12 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Settings & API Docs
+        // 1. Settings, API Docs, SEO & Blog Content
         $this->call([
             SettingSeeder::class,
             ApiDocSeeder::class,
+            SeoContentSeeder::class,
+            BlogPostSeeder::class,
         ]);
 
         // 2. Couriers
@@ -229,5 +231,24 @@ class DatabaseSeeder extends Seeder
                 );
             }
         }
+        // 8. Referral Campaign Rule
+        \App\Models\ReferralRule::firstOrCreate(
+            ['is_active' => true],
+            [
+                'name'                        => 'Standard Seller Referral Program',
+                'reward_type'                 => 'percentage',
+                'reward_value'                => 10.00,
+                'trigger_event'               => 'first_delivered_shipment',
+                'min_shipments_required'      => 1,
+                'min_order_value'             => 50.00,
+                'validity_days'               => 90,
+                'max_commission_per_referral' => 5000.00,
+                'min_withdrawal_amount'       => 500.00,
+                'requires_kyc'                => false,
+                'requires_phone_verified'     => false,
+                'auto_approve_commission'     => true,
+                'is_active'                   => true,
+            ]
+        );
     }
 }

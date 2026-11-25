@@ -70,6 +70,11 @@ class RiderAppController extends Controller
             } catch (\Throwable $e) {
                 \Illuminate\Support\Facades\Log::error('Delivery commission processing error: ' . $e->getMessage());
             }
+            try {
+                app(\App\Services\ReferralCommissionEngine::class)->evaluateDeliveryCommission($shipment);
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::error('Referral commission processing error: ' . $e->getMessage());
+            }
             app(\App\Services\NotificationService::class)->notifyShipmentUpdate($shipment, 'Good news! Your shipment ' . $shipment->awb_number . ' has been successfully delivered.');
         }
 

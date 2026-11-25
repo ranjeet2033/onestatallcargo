@@ -53,6 +53,11 @@ class Shipment extends Model
         return $this->hasMany(FranchiseCommission::class);
     }
 
+    public function referralCommissions()
+    {
+        return $this->hasMany(ReferralCommission::class, 'shipment_id');
+    }
+
     public function getDisplayAwbAttribute(): string
     {
         return !empty($this->courier_awb) ? (string)$this->courier_awb : (string)$this->awb_number;
