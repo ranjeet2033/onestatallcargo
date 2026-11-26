@@ -309,6 +309,9 @@
                         <a href="{{ route('seller.settings') }}?view=company" class="flex items-center px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 hover:text-[#4338ca] transition">
                             <i class="fa-solid fa-user-tie w-5 text-gray-400"></i> Manage Profile
                         </a>
+                        <a href="{{ route('seller.settings') }}?view=password" class="flex items-center px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 hover:text-[#4338ca] transition">
+                            <i class="fa-solid fa-key w-5 text-gray-400"></i> Change Password
+                        </a>
                         <a href="{{ route('seller.settings') }}" class="flex items-center px-4 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 hover:text-[#4338ca] transition mb-2">
                             <i class="fa-solid fa-gear w-5 text-gray-400"></i> Global Settings
                         </a>

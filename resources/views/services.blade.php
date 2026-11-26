@@ -13,7 +13,7 @@
 <script type="application/ld+json">
 {!! json_encode(seo()->serviceSchema([
     'name' => 'OneStall Cargo Integrated Logistics & Courier Services',
-    'type' => 'Express Courier, Freight Cargo & Logistics Aggregator',
+    'type' => 'Express Courier, Freight Cargo & Logistics Platform',
     'areaServed' => 'India',
     'description' => 'Comprehensive logistics solutions for eCommerce, B2B cargo, international courier, hyperlocal delivery, and franchise networks in India.'
 ]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}

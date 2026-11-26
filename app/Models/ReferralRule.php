@@ -13,6 +13,7 @@ class ReferralRule extends Model
         'name',
         'reward_type',
         'reward_value',
+        'referee_reward_value',
         'trigger_event',
         'min_shipments_required',
         'min_order_value',
@@ -27,6 +28,7 @@ class ReferralRule extends Model
 
     protected $casts = [
         'reward_value' => 'decimal:2',
+        'referee_reward_value' => 'decimal:2',
         'min_order_value' => 'decimal:2',
         'max_commission_per_referral' => 'decimal:2',
         'min_withdrawal_amount' => 'decimal:2',

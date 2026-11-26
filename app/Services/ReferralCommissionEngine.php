@@ -292,4 +292,138 @@ class ReferralCommissionEngine
             return $locked;
         });
     }
+
+    /**
+     * Evaluate and process referral bonus for both sellers on 1st wallet recharge.
+     * Transaction-safe, idempotent, credits both parties directly into their Shipping Wallet!
+     */
+    public function evaluateRechargeReferralBonus(User $rechargedUser, \App\Models\WalletTransaction $transaction): array
+    {
+        return DB::transaction(function () use ($rechargedUser, $transaction) {
+            // Check if user was referred
+            $referral = SellerReferral::where('referred_id', $rechargedUser->id)->first();
+            if (!$referral) {
+                return ['success' => false, 'reason' => 'User was not referred.'];
+            }
+
+            if ($referral->status === 'disqualified') {
+                return ['success' => false, 'reason' => 'Referral is disqualified.'];
+            }
+
+            $referrer = User::lockForUpdate()->find($referral->referrer_id);
+            if (!$referrer || !$referrer->isEligibleReferrer()) {
+                return ['success' => false, 'reason' => 'Referrer is ineligible or inactive.'];
+            }
+
+            $rule = ReferralRule::getActiveRule();
+            if (!$rule) {
+                return ['success' => false, 'reason' => 'No active referral rule.'];
+            }
+
+            // Trigger when rule trigger_event is first_wallet_recharge
+            if ($rule->trigger_event !== 'first_wallet_recharge') {
+                return ['success' => false, 'reason' => 'Active referral rule is not set to first_wallet_recharge.'];
+            }
+
+            // Idempotency check: Ensure 1st recharge bonus is given only ONCE per referral
+            $idempotencyKey = "REFRECHARGE_REFERRER_{$referral->id}";
+            $existing = ReferralCommission::where('idempotency_key', $idempotencyKey)->first();
+            if ($existing) {
+                return ['success' => true, 'message' => 'Recharge referral bonus already awarded.', 'commission' => $existing];
+            }
+
+            // Amounts to award (only referrer gets bonus unless rule explicitly specifies referee bonus)
+            $referrerBonus = $rule->reward_type === 'fixed' ? (float) $rule->reward_value : 200.00;
+            $refereeBonus = (float) ($rule->referee_reward_value ?? 0.00);
+
+            $lockedReferee = User::lockForUpdate()->find($rechargedUser->id);
+
+            // 1. Credit Referrer Wallet
+            if ($referrerBonus > 0) {
+                $referrer->wallet_balance += $referrerBonus;
+                $referrer->save();
+
+                \App\Models\WalletTransaction::create([
+                    'user_id'       => $referrer->id,
+                    'type'          => 'credit',
+                    'amount'        => $referrerBonus,
+                    'balance_after' => $referrer->wallet_balance,
+                    'reference_id'  => 'REF_BONUS_' . $lockedReferee->id . '_' . time(),
+                    'description'   => "Referral Bonus - ₹" . number_format($referrerBonus, 2) . " earned for {$lockedReferee->name}'s 1st recharge",
+                    'status'        => 'success',
+                ]);
+
+                // Record in Referral Commission ledger
+                ReferralCommission::create([
+                    'seller_referral_id' => $referral->id,
+                    'referrer_id'        => $referrer->id,
+                    'referred_id'        => $lockedReferee->id,
+                    'shipment_id'        => null,
+                    'rule_id'            => $rule->id,
+                    'commission_type'    => 'fixed',
+                    'rate_applied'       => $referrerBonus,
+                    'base_amount'        => (float) $transaction->amount,
+                    'commission_amount'  => $referrerBonus,
+                    'status'             => ReferralCommission::STATUS_PAID,
+                    'approved_at'        => now(),
+                    'payable_at'         => now(),
+                    'paid_at'            => now(),
+                    'payment_reference'  => 'SHIPPING_WALLET',
+                    'payout_notes'       => 'Credited directly to Shipping Wallet on 1st Recharge',
+                    'idempotency_key'    => $idempotencyKey,
+                ]);
+
+                // Record payout request snapshot as paid to keep available referral balance properly aligned
+                \App\Models\ReferralPayoutRequest::create([
+                    'user_id'                => $referrer->id,
+                    'payout_method_id'       => null,
+                    'payout_method_snapshot' => [
+                        'type'        => 'shipping_wallet',
+                        'destination' => 'Shipping Recharge Wallet',
+                        'instant'     => true,
+                    ],
+                    'amount'                 => $referrerBonus,
+                    'status'                 => \App\Models\ReferralPayoutRequest::STATUS_PAID,
+                    'payment_reference'      => 'SHIPPING_WALLET',
+                    'paid_at'                => now(),
+                ]);
+            }
+
+            // 2. Credit Referee (New Seller) Wallet
+            if ($refereeBonus > 0) {
+                $lockedReferee->wallet_balance += $refereeBonus;
+                $lockedReferee->save();
+
+                \App\Models\WalletTransaction::create([
+                    'user_id'       => $lockedReferee->id,
+                    'type'          => 'credit',
+                    'amount'        => $refereeBonus,
+                    'balance_after' => $lockedReferee->wallet_balance,
+                    'reference_id'  => 'REF_WELCOME_' . $lockedReferee->id . '_' . time(),
+                    'description'   => "Welcome Referral Bonus - ₹" . number_format($refereeBonus, 2) . " credited on 1st recharge",
+                    'status'        => 'success',
+                ]);
+            }
+
+            // Update referral status
+            $referral->status = 'active';
+            $referral->qualified_at = now();
+            $referral->save();
+
+            \App\Models\ReferralAuditLog::log('first_recharge_bonus_awarded', $referral, [
+                'recharge_tx'     => $transaction->reference_id,
+                'recharge_amount' => $transaction->amount,
+                'referrer_bonus'  => $referrerBonus,
+                'referee_bonus'   => $refereeBonus,
+            ], $lockedReferee->id);
+
+            Log::info("First Recharge Referral Bonus awarded: Referrer #{$referrer->id} (₹{$referrerBonus}), Referee #{$lockedReferee->id} (₹{$refereeBonus})");
+
+            return [
+                'success'        => true,
+                'referrer_bonus' => $referrerBonus,
+                'referee_bonus'  => $refereeBonus,
+            ];
+        });
+    }
 }

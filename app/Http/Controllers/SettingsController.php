@@ -233,17 +233,27 @@ class SettingsController extends Controller
 
         $request->validate([
             'current_password' => 'required',
-            'new_password' => 'required|min:6|confirmed',
+            'new_password' => 'required|string|min:6|confirmed',
+        ], [
+            'new_password.confirmed' => 'New password confirmation does not match.',
+            'new_password.min' => 'New password must be at least 6 characters.',
         ]);
 
         $user = Auth::user();
         if (!\Illuminate\Support\Facades\Hash::check($request->current_password, $user->password)) {
-            return response()->json(['success' => false, 'message' => 'Current password does not match']);
+            if ($request->expectsJson()) {
+                return response()->json(['success' => false, 'message' => 'Current password does not match.'], 422);
+            }
+            return back()->withErrors(['current_password' => 'Current password does not match.']);
         }
 
         $user->password = \Illuminate\Support\Facades\Hash::make($request->new_password);
         $user->save();
 
-        return response()->json(['success' => true, 'message' => 'Password changed successfully']);
+        if ($request->expectsJson()) {
+            return response()->json(['success' => true, 'message' => 'Your password has been changed successfully.']);
+        }
+
+        return back()->with('success', 'Your password has been changed successfully.');
     }
 }

@@ -51,14 +51,22 @@
                     <div class="inline-flex items-center gap-2 text-xs font-semibold bg-emerald-500/20 text-emerald-300 px-3 py-1.5 rounded-lg border border-emerald-400/20">
                         <i class="fa-solid fa-circle-check"></i>
                         <span>Active Reward: 
-                            <strong>
-                                @if($activeRule->reward_type === 'percentage')
-                                    {{ $activeRule->reward_value }}% of shipping freight
+                            @if($activeRule->trigger_event === 'first_wallet_recharge')
+                                @if(($activeRule->referee_reward_value ?? 0) > 0)
+                                    <strong>₹{{ number_format($activeRule->reward_value, 2) }} in your wallet & ₹{{ number_format($activeRule->referee_reward_value, 2) }} in friend's wallet</strong> on their 1st recharge!
                                 @else
-                                    ₹{{ number_format($activeRule->reward_value, 2) }} flat
+                                    <strong>₹{{ number_format($activeRule->reward_value, 2) }} credited directly to your shipping wallet</strong> on your invited friend's 1st recharge!
                                 @endif
-                            </strong> 
-                            per qualifying delivered order (Min freight: ₹{{ number_format($activeRule->min_order_value) }})
+                            @else
+                                <strong>
+                                    @if($activeRule->reward_type === 'percentage')
+                                        {{ $activeRule->reward_value }}% of shipping freight
+                                    @else
+                                        ₹{{ number_format($activeRule->reward_value, 2) }} flat
+                                    @endif
+                                </strong> 
+                                per qualifying delivered order (Min freight: ₹{{ number_format($activeRule->min_order_value) }})
+                            @endif
                         </span>
                     </div>
                 @endif

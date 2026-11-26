@@ -109,6 +109,19 @@ class AdminSellerController extends Controller
         return back()->with('success', $msg);
     }
 
+    public function updatePassword(Request $request, $id)
+    {
+        $request->validate([
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        $seller = User::where('role', 'seller')->findOrFail($id);
+        $seller->password = Hash::make($request->password);
+        $seller->save();
+
+        return back()->with('success', "Password for {$seller->name} ({$seller->email}) has been updated successfully.");
+    }
+
     public function toggle($id)
     {
         return $this->toggleStatus($id);

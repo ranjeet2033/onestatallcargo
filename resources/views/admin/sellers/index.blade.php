@@ -3,7 +3,7 @@
 @section('title', 'Sellers Directory - OneStall Cargo')
 
 @section('content')
-<div class="space-y-6" x-data="{ showAddModal: false, showEditModal: false, editData: {} }">
+<div class="space-y-6" x-data="{ showAddModal: false, showEditModal: false, editData: {}, showPasswordModal: false, passwordData: { id: '', name: '', email: '' } }">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
             <h1 class="text-2xl font-extrabold text-gray-900 tracking-tight">Sellers Directory</h1>
@@ -100,6 +100,10 @@
                                     company_pincode: '{{ addslashes($seller->company_pincode ?? '') }}', early_cod_plan: '{{ $seller->early_cod_plan ?? 'standard' }}', early_cod_fee: '{{ $seller->early_cod_fee ?? '0.00' }}'
                                 }; showEditModal = true" class="text-gray-500 hover:text-gray-900 font-bold text-xs" title="Edit Profile"><i class="fa-solid fa-pen"></i></button>
                                 
+                                <button type="button" @click="passwordData = { id: {{ $seller->id }}, name: '{{ addslashes($seller->name) }}', email: '{{ addslashes($seller->email) }}' }; showPasswordModal = true" class="text-indigo-600 hover:text-indigo-900 font-bold text-xs" title="Reset / Change Password">
+                                    <i class="fa-solid fa-key"></i>
+                                </button>
+
                                 <a href="{{ route('admin.billing.index') }}" class="text-[var(--gold-deep)] hover:text-yellow-600 font-bold text-xs" title="COD Ledger"><i class="fa-solid fa-file-invoice"></i></a>
 
                                 <form action="{{ route('admin.sellers.toggle', $seller->id) }}" method="POST" class="inline-block ml-1">
@@ -296,6 +300,54 @@
                         </button>
                         <button type="submit" class="px-6 py-2 bg-gray-900 text-white text-xs font-bold rounded-xl hover:bg-black">
                             Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div x-show="showPasswordModal" style="display: none;" class="fixed inset-0 z-50 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-10 text-center sm:p-0">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true" @click="showPasswordModal = false">
+                <div class="absolute inset-0 bg-gray-900 opacity-75"></div>
+            </div>
+            
+            <div class="inline-block align-bottom bg-white rounded-3xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md w-full">
+                <form :action="'{{ url('admin/sellers') }}/' + passwordData.id + '/password'" method="POST">
+                    @csrf
+                    <div class="bg-white p-6 space-y-4">
+                        <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
+                                    <i class="fa-solid fa-key"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-base font-extrabold text-gray-900">Change Seller Password</h3>
+                                    <p class="text-[11px] text-gray-400" x-text="passwordData.name + ' (' + passwordData.email + ')'"></p>
+                                </div>
+                            </div>
+                            <button type="button" @click="showPasswordModal = false" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1">New Password <span class="text-red-500">*</span></label>
+                            <input type="password" name="password" required minlength="6" placeholder="Minimum 6 characters" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-indigo-600">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1">Confirm New Password <span class="text-red-500">*</span></label>
+                            <input type="password" name="password_confirmation" required minlength="6" placeholder="Repeat new password" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-indigo-600">
+                        </div>
+
+                        <p class="text-[11px] text-gray-400">The seller can immediately log in with this new password.</p>
+                    </div>
+
+                    <div class="bg-gray-50 px-6 py-3 flex justify-end gap-2 border-t border-gray-100">
+                        <button type="button" @click="showPasswordModal = false" class="px-4 py-2 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-200 transition">Cancel</button>
+                        <button type="submit" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-black transition flex items-center gap-1.5 shadow-sm">
+                            <i class="fa-solid fa-check"></i> Set Password
                         </button>
                     </div>
                 </form>

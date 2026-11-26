@@ -1,8 +1,8 @@
 @extends('layouts.public')
 
-@section('title', 'E-Commerce Shipping Solutions & Courier Aggregator India | OneStall')
+@section('title', 'E-Commerce Shipping Solutions & Logistics Platform India | OneStall')
 @section('meta_description', 'All-in-one e-commerce shipping solutions in India. Integrate Shopify, WooCommerce, and marketplaces to automate AWB generation, courier allocation, and NDR tracking.')
-@section('meta_keywords', 'E-commerce Shipping Solutions, Shipping Aggregator India, Multi-Carrier Logistics, Shopify Courier Integration, WooCommerce Shipping')
+@section('meta_keywords', 'E-commerce Shipping Solutions, Tech-Enabled Logistics India, Multi-Carrier Logistics, Shopify Courier Integration, WooCommerce Shipping')
 
 @section('breadcrumbs')
     <span class="text-gray-400">/</span>
@@ -14,8 +14,8 @@
 @section('schema_json')
 <script type="application/ld+json">
 {!! json_encode(seo()->serviceSchema([
-    'name' => 'OneStall E-Commerce Shipping Solutions & Store Aggregator',
-    'type' => 'E-Commerce Shipping Aggregation & Integration',
+    'name' => 'OneStall E-Commerce Shipping & Logistics Platform',
+    'type' => 'E-Commerce Shipping & Multi-Carrier Logistics Integration',
     'areaServed' => 'India',
     'description' => 'Automated e-commerce shipping integration for Shopify, WooCommerce, Magento, and custom stores with instant AWB generation and multi-carrier courier allocation.'
 ]), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
@@ -38,7 +38,7 @@
                     E-Commerce Shipping Solutions &amp; Integrations
                 </div>
                 <h1 class="text-3xl md:text-5xl font-extrabold text-brand-navy leading-tight mb-4">
-                    E-Commerce Shipping Solutions &amp; <span class="text-brand-red">Courier Aggregator</span>
+                    E-Commerce Shipping Solutions &amp; <span class="text-brand-red">Logistics Platform</span>
                 </h1>
                 <p class="text-base md:text-lg text-gray-700 mb-8 font-medium leading-relaxed">
                     Connect your store in under 5 minutes. Pre-built 1-click plugins for Shopify, WooCommerce, Magento, and custom REST APIs to automate order import, courier allocation, AWB generation, and tracking sync.
@@ -57,7 +57,7 @@
                 <div class="relative rounded-2xl overflow-hidden shadow-xl border-4 border-white bg-white">
                     <picture>
                         <source srcset="{{ asset('images/dashboard.webp') }}" type="image/webp">
-                        <img src="{{ asset('images/dashboard.jpg') }}" alt="E-Commerce Shipping Solutions & Courier Aggregator India" width="600" height="380" class="w-full h-80 md:h-96 object-cover">
+                        <img src="{{ asset('images/dashboard.jpg') }}" alt="E-Commerce Shipping Solutions & Logistics Platform India" width="600" height="380" class="w-full h-80 md:h-96 object-cover">
                     </picture>
                 </div>
                 <div class="absolute -bottom-4 -left-4 bg-white p-3.5 rounded-xl shadow-lg border border-gray-100 flex items-center gap-3 z-20">

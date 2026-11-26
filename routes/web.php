@@ -227,6 +227,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/sellers', [\App\Http\Controllers\AdminSellerController::class, 'index'])->name('admin.sellers.index');
         Route::post('/sellers', [\App\Http\Controllers\AdminSellerController::class, 'store'])->name('admin.sellers.store');
         Route::post('/sellers/{id}', [\App\Http\Controllers\AdminSellerController::class, 'update'])->name('admin.sellers.update');
+        Route::post('/sellers/{id}/password', [\App\Http\Controllers\AdminSellerController::class, 'updatePassword'])->name('admin.sellers.password');
         Route::post('/sellers/{id}/toggle', [\App\Http\Controllers\AdminSellerController::class, 'toggle'])->name('admin.sellers.toggle');
         Route::delete('/sellers/{id}', [\App\Http\Controllers\AdminSellerController::class, 'destroy'])->name('admin.sellers.destroy');
         

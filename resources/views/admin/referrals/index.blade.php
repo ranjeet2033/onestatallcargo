@@ -588,17 +588,21 @@
 
                     <form action="{{ route('admin.referrals.rules.update', $r->id) }}" method="POST" class="space-y-3 pt-2">
                         @csrf
-                        <div class="grid grid-cols-2 gap-3">
+                        <div class="grid grid-cols-3 gap-3">
                             <div>
                                 <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Reward Type</label>
                                 <select name="reward_type" class="w-full px-3 py-2 rounded-xl border border-gray-200 text-xs">
-                                    <option value="percentage" {{ $r->reward_type === 'percentage' ? 'selected' : '' }}>Percentage of Freight (%)</option>
+                                    <option value="percentage" {{ $r->reward_type === 'percentage' ? 'selected' : '' }}>Percentage (%)</option>
                                     <option value="fixed" {{ $r->reward_type === 'fixed' ? 'selected' : '' }}>Fixed Amount (₹)</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Reward Value</label>
+                                <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Referrer Reward</label>
                                 <input type="number" step="0.01" name="reward_value" value="{{ $r->reward_value }}" class="w-full px-3 py-2 rounded-xl border border-gray-200 text-xs font-bold">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Referee Bonus (₹)</label>
+                                <input type="number" step="0.01" name="referee_reward_value" value="{{ $r->referee_reward_value ?? $r->reward_value }}" class="w-full px-3 py-2 rounded-xl border border-gray-200 text-xs font-bold">
                             </div>
                         </div>
 
@@ -606,6 +610,7 @@
                             <div>
                                 <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Trigger Event</label>
                                 <select name="trigger_event" class="w-full px-3 py-2 rounded-xl border border-gray-200 text-xs">
+                                    <option value="first_wallet_recharge" {{ $r->trigger_event === 'first_wallet_recharge' ? 'selected' : '' }}>1st Wallet Recharge (Both Sellers)</option>
                                     <option value="first_delivered_shipment" {{ $r->trigger_event === 'first_delivered_shipment' ? 'selected' : '' }}>1st Delivered Order</option>
                                     <option value="every_delivered_shipment" {{ $r->trigger_event === 'every_delivered_shipment' ? 'selected' : '' }}>Every Delivered Order</option>
                                 </select>
@@ -1117,13 +1122,17 @@
                             <div>
                                 <label class="block text-xs font-bold text-gray-700 mb-1">Reward Type</label>
                                 <select name="reward_type" class="w-full px-3 py-2 rounded-xl border border-gray-200 text-xs">
-                                    <option value="percentage">Percentage (%) of Freight</option>
                                     <option value="fixed">Fixed Amount (₹)</option>
+                                    <option value="percentage">Percentage (%) of Freight</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-gray-700 mb-1">Reward Value</label>
-                                <input type="number" step="0.01" name="reward_value" required value="5.00" class="w-full px-3 py-2 rounded-xl border border-gray-200 text-xs font-bold">
+                                <label class="block text-xs font-bold text-gray-700 mb-1">Referrer Reward (₹)</label>
+                                <input type="number" step="0.01" name="reward_value" required value="200.00" class="w-full px-3 py-2 rounded-xl border border-gray-200 text-xs font-bold">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 mb-1">Referee Bonus (₹)</label>
+                                <input type="number" step="0.01" name="referee_reward_value" value="200.00" class="w-full px-3 py-2 rounded-xl border border-gray-200 text-xs font-bold">
                             </div>
                         </div>
 
@@ -1131,6 +1140,7 @@
                             <div>
                                 <label class="block text-xs font-bold text-gray-700 mb-1">Trigger Event</label>
                                 <select name="trigger_event" class="w-full px-3 py-2 rounded-xl border border-gray-200 text-xs">
+                                    <option value="first_wallet_recharge" selected>1st Wallet Recharge (Both Sellers)</option>
                                     <option value="first_delivered_shipment">1st Delivered Order</option>
                                     <option value="every_delivered_shipment">Every Delivered Order</option>
                                 </select>

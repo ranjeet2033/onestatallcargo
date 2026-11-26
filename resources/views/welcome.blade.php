@@ -2,7 +2,7 @@
 
 @section('title', 'Courier Service in India | OneStall Cargo Logistics')
 @section('meta_description', 'Reliable courier service in India for eCommerce and B2B brands. Deliver to 29,000+ pin codes with 15+ top couriers, automated NDR, and 1-2 day COD remittance.')
-@section('meta_keywords', 'Courier Service in India, Shipping Company in India, E-commerce Shipping Solutions, Shipping Aggregator India, Express Courier India')
+@section('meta_keywords', 'Courier Service in India, Shipping Company in India, E-commerce Shipping Solutions, Tech-Enabled Courier and Logistics, Express Courier India')
 
 @section('content')
 <!-- 1. Hero Section -->
@@ -17,8 +17,8 @@
                 <span class="text-brand-navy block mb-1">Courier Service in India &amp; eCommerce Shipping</span>
                 <span class="text-brand-red">Built for Business Growth &amp; Scale</span>
             </h1>
-            <p class="text-base md:text-lg text-gray-700 mb-6 font-medium max-w-md mx-auto lg:mx-0 leading-relaxed">
-                Fuel your business ambition with India's premier tech-enabled courier and cargo aggregator. 29,000+ pin codes, 15+ delivery partners, automated NDR, and 1-2 day COD remittance.
+            <p class="text-base md:text-lg text-gray-700 mb-6 font-medium max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                OneStall Cargo is India's premier tech-enabled courier and logistics platform operated by <strong class="text-brand-navy">ANYURVA AYURVEDA PRIVATE LIMITED</strong>. Supporting B2C e-commerce shipping, B2B bulk cargo, international freight, and hyperlocal delivery across 29,000+ pin codes with 15+ delivery partners.
             </p>
 
             <!-- CTA -->

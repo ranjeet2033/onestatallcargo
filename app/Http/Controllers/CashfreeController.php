@@ -182,6 +182,15 @@ class CashfreeController extends Controller
                 $transaction->balance_after = $user->wallet_balance;
                 $transaction->save();
 
+                // Trigger Referral Bonus on 1st Recharge (Both Referrer & Referee)
+                try {
+                    app(\App\Services\ReferralCommissionEngine::class)->evaluateRechargeReferralBonus($user, $transaction);
+                } catch (\Throwable $e) {
+                    \Illuminate\Support\Facades\Log::error('Referral 1st recharge bonus error: ' . $e->getMessage());
+                }
+
+                $user->refresh();
+
                 return response()->json([
                     'success' => true,
                     'new_balance' => $user->wallet_balance

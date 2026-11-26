@@ -27,6 +27,12 @@
         .sidebar-item:hover { background-color: rgba(255, 255, 255, 0.05); color: white; }
         .sidebar-item.active { background-color: rgba(255, 215, 0, 0.1); color: var(--theme-active); }
         .sidebar-item.active i { color: var(--theme-active); }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
 <body class="h-screen min-h-[100dvh] flex overflow-hidden bg-[#f3f5f9]" x-data="{ sidebarHover: false, isPinned: false, mobileSidebarOpen: false }">
@@ -42,7 +48,7 @@
          'w-64 shadow-2xl z-50 translate-x-0 fixed inset-y-0 left-0 md:relative': (sidebarHover || isPinned || mobileSidebarOpen),
          'w-64 -translate-x-full fixed inset-y-0 left-0 md:relative md:translate-x-0 md:w-20 z-30': !(sidebarHover || isPinned || mobileSidebarOpen)
      }"
-     class="flex flex-col shrink-0 transition-all duration-300 ease-in-out h-screen" style="background-color: var(--theme-bg);">
+     class="flex flex-col shrink-0 transition-all duration-300 ease-in-out h-screen relative" style="background-color: var(--theme-bg);">
     <button 
         @click="isPinned = !isPinned" 
         class="absolute -right-3 top-6 md:flex hidden w-6 h-6 bg-white border border-gray-200 rounded-full items-center justify-center text-gray-500 hover:text-[#4338ca] shadow-md z-50 transition-all duration-300"
@@ -51,9 +57,11 @@
         <i class="fa-solid fa-chevron-left text-[10px]"></i>
     </button>
 <div class="flex flex-col flex-1 overflow-y-auto overflow-x-hidden scrollbar-hide">
-            <div class="flex items-center px-4 mb-6 mt-5 text-white gap-2.5">
-                <img src="{{ asset('images/logo.jpg') }}" alt="OneStall Cargo" class="h-10 object-contain rounded bg-white p-1" style="max-width: 150px;">
-                <div class="flex flex-col"><span class="text-[10px] text-[var(--gold)] font-bold uppercase tracking-wider">Admin</span></div>
+            <div class="px-4 mb-6 mt-5 flex items-center h-10 transition-all overflow-hidden" :class="(sidebarHover || isPinned || mobileSidebarOpen) ? 'justify-start' : 'justify-center'">
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5">
+                    <img src="{{ asset('images/logo.jpg') }}" alt="OneStall Cargo" class="object-contain rounded bg-white p-1 transition-all duration-300" :class="(sidebarHover || isPinned || mobileSidebarOpen) ? 'h-10 max-w-[140px]' : 'h-8 w-8'">
+                    <span x-show="sidebarHover || isPinned || mobileSidebarOpen" x-transition.opacity class="text-[10px] text-[var(--gold)] font-bold uppercase tracking-wider">Admin</span>
+                </a>
             </div>
 
             <nav class="flex-1 space-y-1 px-2 pb-4">
@@ -161,7 +169,7 @@
                 </div>
             </div>
         </div>
-        <main class="flex-1 overflow-y-auto p-3 sm:p-6 md:p-8 pb-32 sm:pb-28" style="-webkit-overflow-scrolling: touch;">
+        <main class="flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-6 md:p-8 pb-32 sm:pb-28" style="-webkit-overflow-scrolling: touch;">
             @if(session('success'))
                 <div class="mb-6 p-4 rounded-xl" style="background-color: #f0fdf4; border: 1px solid #16a34a; color: #16a34a;"><i class="fa-solid fa-circle-check"></i> {{ session('success') }}</div>
             @endif

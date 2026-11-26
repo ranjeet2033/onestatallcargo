@@ -651,33 +651,68 @@
     </div>
 
     <!-- VIEW 6: Change Password -->
-    <div x-show="view === 'password'" style="display: none;" class="bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 shadow-sm max-w-xl">
+    <div x-show="view === 'password'" style="display: none;" class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm max-w-xl">
         <form @submit.prevent="changePassword">
-            <h3 class="font-bold text-gray-900 text-lg mb-2">Change Password</h3>
-            <p class="text-xs text-gray-500 mb-6">Enter your current password and choose a strong new password.</p>
+            <div class="flex items-center gap-3 mb-2">
+                <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
+                    <i class="fa-solid fa-lock text-base"></i>
+                </div>
+                <div>
+                    <h3 class="font-extrabold text-gray-900 text-lg">Change Password</h3>
+                    <p class="text-xs text-gray-500">Enter your current password and set a new password</p>
+                </div>
+            </div>
 
-            <div class="space-y-4">
+            <!-- Alerts -->
+            <div x-show="pwdSuccess" x-cloak class="mt-4 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold flex items-center gap-2">
+                <i class="fa-solid fa-circle-check text-emerald-600 text-base"></i> <span x-text="pwdSuccess"></span>
+            </div>
+            <div x-show="pwdError" x-cloak class="mt-4 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold flex items-center gap-2">
+                <i class="fa-solid fa-circle-exclamation text-rose-600 text-base"></i> <span x-text="pwdError"></span>
+            </div>
+
+            <div class="space-y-4 mt-6">
+                <!-- Current Password -->
                 <div>
                     <label class="block text-xs font-bold text-gray-700 mb-1">Current Password <span class="text-red-500">*</span></label>
-                    <input type="password" x-model="pwd.current_password" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#4338ca]" required>
+                    <div class="relative">
+                        <input :type="showCurrent ? 'text' : 'password'" x-model="pwd.current_password" placeholder="Enter your current password" class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#4338ca] pr-10" required>
+                        <button type="button" @click="showCurrent = !showCurrent" class="absolute right-3 top-3.5 text-gray-400 hover:text-gray-600 text-sm">
+                            <i class="fa-solid" :class="showCurrent ? 'fa-eye-slash' : 'fa-eye'"></i>
+                        </button>
+                    </div>
                 </div>
+
+                <!-- New Password -->
                 <div>
                     <label class="block text-xs font-bold text-gray-700 mb-1">New Password <span class="text-red-500">*</span></label>
-                    <input type="password" x-model="pwd.new_password" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#4338ca]" required>
+                    <div class="relative">
+                        <input :type="showNew ? 'text' : 'password'" x-model="pwd.new_password" minlength="6" placeholder="Minimum 6 characters" class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#4338ca] pr-10" required>
+                        <button type="button" @click="showNew = !showNew" class="absolute right-3 top-3.5 text-gray-400 hover:text-gray-600 text-sm">
+                            <i class="fa-solid" :class="showNew ? 'fa-eye-slash' : 'fa-eye'"></i>
+                        </button>
+                    </div>
                 </div>
+
+                <!-- Confirm Password -->
                 <div>
                     <label class="block text-xs font-bold text-gray-700 mb-1">Confirm New Password <span class="text-red-500">*</span></label>
-                    <input type="password" x-model="pwd.new_password_confirmation" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#4338ca]" required>
+                    <div class="relative">
+                        <input :type="showConfirm ? 'text' : 'password'" x-model="pwd.new_password_confirmation" minlength="6" placeholder="Re-type new password" class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#4338ca] pr-10" required>
+                        <button type="button" @click="showConfirm = !showConfirm" class="absolute right-3 top-3.5 text-gray-400 hover:text-gray-600 text-sm">
+                            <i class="fa-solid" :class="showConfirm ? 'fa-eye-slash' : 'fa-eye'"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
-                    <button type="submit" class="px-6 py-3 bg-[#4338ca] text-white font-bold rounded-lg hover:bg-[#3730a3] transition flex items-center gap-2" :disabled="loading">
+                    <button type="submit" class="px-6 py-3 bg-[#4338ca] hover:bg-[#3730a3] text-white font-bold text-xs rounded-xl transition flex items-center gap-2 shadow-sm" :disabled="loading">
                         <span x-show="!loading"><i class="fa-solid fa-lock mr-1"></i> Update Password</span>
                         <span x-show="loading"><i class="fa-solid fa-spinner fa-spin"></i> Updating...</span>
                     </button>
-                    <p x-show="pwdSuccess" class="text-green-600 text-xs font-bold" x-text="pwdSuccess"></p>
                 </div>
             </div>
+        </form>
     </div>
 </div>
 
@@ -702,6 +737,10 @@ function settingsManager() {
         successMessage: '',
         bankSuccess: '',
         pwdSuccess: '',
+        pwdError: '',
+        showCurrent: false,
+        showNew: false,
+        showConfirm: false,
         
         // Profile Data
         profile: {
@@ -751,6 +790,10 @@ function settingsManager() {
             this.successMessage = '';
             this.bankSuccess = '';
             this.pwdSuccess = '';
+            this.pwdError = '';
+            this.showCurrent = false;
+            this.showNew = false;
+            this.showConfirm = false;
             this.generatedToken = null;
         },
 
@@ -791,6 +834,7 @@ function settingsManager() {
         async changePassword() {
             this.loading = true;
             this.pwdSuccess = '';
+            this.pwdError = '';
             try {
                 let res = await fetch('{{ route('seller.settings.password') }}', {
                     method: 'POST',
@@ -798,11 +842,19 @@ function settingsManager() {
                     body: JSON.stringify(this.pwd)
                 });
                 let data = await res.json();
-                if(data.success) {
-                    this.pwdSuccess = "Password updated successfully!";
+                if(res.ok && data.success) {
+                    this.pwdSuccess = data.message || "Password updated successfully!";
                     this.pwd = { current_password: '', new_password: '', new_password_confirmation: '' };
-                } else { alert(data.message || "Failed to update password"); }
-            } catch(e) { alert("Error changing password"); }
+                } else {
+                    let errMsg = data.message || "Failed to update password";
+                    if(data.errors) {
+                        errMsg = Object.values(data.errors).flat().join(' ');
+                    }
+                    this.pwdError = errMsg;
+                }
+            } catch(e) {
+                this.pwdError = "Network error while changing password. Please try again.";
+            }
             this.loading = false;
         },
 

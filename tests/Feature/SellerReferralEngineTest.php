@@ -395,4 +395,89 @@ class SellerReferralEngineTest extends TestCase
         $this->assertEquals(ReferralCommission::STATUS_PAID, $paidComm->status);
         $this->assertEquals('UTR987654321', $paidComm->payment_reference);
     }
+
+    public function test_it_awards_200_to_referrer_on_first_wallet_recharge()
+    {
+        // Setup recharge referral rule: ₹200 for referrer only
+        ReferralRule::query()->delete();
+        ReferralRule::create([
+            'name'                 => '₹200 Referrer Recharge Rule',
+            'reward_type'          => 'fixed',
+            'reward_value'         => 200.00,
+            'referee_reward_value' => 0.00,
+            'trigger_event'        => 'first_wallet_recharge',
+            'min_order_value'      => 0.00,
+            'is_active'            => true,
+        ]);
+
+        $referrer = User::create([
+            'name'           => 'Referrer Seller',
+            'email'          => 'ref_' . Str::random(5) . '@test.com',
+            'password'       => Hash::make('password123'),
+            'role'           => 'seller',
+            'status'         => 'active',
+            'wallet_balance' => 100.00,
+        ]);
+
+        $referee = User::create([
+            'name'           => 'New Joined Seller',
+            'email'          => 'new_' . Str::random(5) . '@test.com',
+            'password'       => Hash::make('password123'),
+            'role'           => 'seller',
+            'status'         => 'active',
+            'wallet_balance' => 0.00,
+            'referred_by'    => $referrer->id,
+        ]);
+
+        SellerReferral::create([
+            'referrer_id'   => $referrer->id,
+            'referred_id'   => $referee->id,
+            'referral_code' => $referrer->getOrGenerateReferralCode(),
+            'status'        => 'registered',
+        ]);
+
+        // Simulate 1st successful recharge of ₹500
+        $tx = \App\Models\WalletTransaction::create([
+            'user_id'       => $referee->id,
+            'type'          => 'credit',
+            'amount'        => 500.00,
+            'balance_after' => 500.00,
+            'reference_id'  => 'TX_RECHARGE_TEST_1',
+            'description'   => 'Wallet Recharge',
+            'status'        => 'success',
+        ]);
+        $referee->update(['wallet_balance' => 500.00]);
+
+        // Evaluate referral bonus
+        $engine = app(ReferralCommissionEngine::class);
+        $result = $engine->evaluateRechargeReferralBonus($referee, $tx);
+
+        $this->assertTrue($result['success']);
+        $this->assertEquals(200.00, $result['referrer_bonus']);
+        $this->assertEquals(0.00, $result['referee_bonus']);
+
+        // Check Referrer wallet: 100 + 200 = 300
+        $this->assertEquals(300.00, (float) $referrer->fresh()->wallet_balance);
+
+        // Check Referee wallet: only their own recharge of 500 (no extra bonus)
+        $this->assertEquals(500.00, (float) $referee->fresh()->wallet_balance);
+
+        // Check idempotency: second recharge should NOT double-credit
+        $secondTx = \App\Models\WalletTransaction::create([
+            'user_id'       => $referee->id,
+            'type'          => 'credit',
+            'amount'        => 1000.00,
+            'balance_after' => 1500.00,
+            'reference_id'  => 'TX_RECHARGE_TEST_2',
+            'description'   => 'Wallet Recharge 2',
+            'status'        => 'success',
+        ]);
+        $secondResult = $engine->evaluateRechargeReferralBonus($referee, $secondTx);
+        $this->assertTrue($secondResult['success']);
+        $this->assertStringContainsString('already awarded', $secondResult['message']);
+
+        // Balances remain unchanged (no extra 200)
+        $this->assertEquals(300.00, (float) $referrer->fresh()->wallet_balance);
+        $this->assertEquals(500.00, (float) $referee->fresh()->wallet_balance);
+    }
 }

@@ -1,7 +1,7 @@
 @extends('layouts.public')
 @section('title', 'Shipping Cost Calculator | Compare Courier Rates India | OneStall')
-@section('meta_description', 'Calculate shipping rates in seconds with India\'s best shipping aggregator. Compare courier charges across top 15+ delivery partners with zero hidden fees.')
-@section('meta_keywords', 'Shipping Aggregator India, Courier Rate Calculator, Compare Courier Rates, Shipping Cost Calculator India, Cheap Courier Charges')
+@section('meta_description', 'Calculate shipping rates in seconds with India\'s premier tech-enabled courier and logistics platform. Compare courier charges across top 15+ delivery partners with zero hidden fees.')
+@section('meta_keywords', 'Courier and Logistics Platform India, Courier Rate Calculator, Compare Courier Rates, Shipping Cost Calculator India, Cheap Courier Charges')
 
 @section('breadcrumbs')
     <span class="text-gray-400">/</span>

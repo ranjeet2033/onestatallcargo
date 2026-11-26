@@ -20,7 +20,7 @@ class SeoService
         'home' => [
             'title' => 'Courier Service in India | OneStall Cargo Logistics',
             'description' => 'Reliable courier service in India for eCommerce and B2B brands. Deliver to 29,000+ pin codes with 15+ top couriers, automated NDR, and 1-2 day COD remittance.',
-            'keywords' => 'Courier Service in India, Shipping Company in India, E-commerce Shipping Solutions, Shipping Aggregator India, Express Courier India',
+            'keywords' => 'Courier Service in India, Shipping Company in India, E-commerce Shipping Solutions, Courier and Logistics Platform, Express Courier India',
             'type' => 'website',
             'priority' => 1.0,
             'changefreq' => 'daily',
@@ -66,9 +66,9 @@ class SeoService
             'changefreq' => 'weekly',
         ],
         'solutions.ecommerce' => [
-            'title' => 'E-Commerce Shipping Solutions & Courier Aggregator India | OneStall',
+            'title' => 'E-Commerce Shipping Solutions & Logistics Platform India | OneStall',
             'description' => 'All-in-one e-commerce shipping solutions in India. Integrate Shopify, WooCommerce, and marketplaces to automate AWB generation, courier allocation, and NDR tracking.',
-            'keywords' => 'E-commerce Shipping Solutions, Shipping Aggregator India, Multi-Carrier Logistics, Shopify Courier Integration, WooCommerce Shipping',
+            'keywords' => 'E-commerce Shipping Solutions, Multi-Carrier Logistics Platform, Courier Shipping India, Shopify Courier Integration, WooCommerce Shipping',
             'type' => 'service',
             'priority' => 0.9,
             'changefreq' => 'weekly',
@@ -107,8 +107,8 @@ class SeoService
         ],
         'pricing' => [
             'title' => 'Shipping Cost Calculator | Compare Courier Rates India | OneStall',
-            'description' => 'Calculate shipping rates in seconds with India\'s best shipping aggregator. Compare courier charges across top 15+ delivery partners with zero hidden fees.',
-            'keywords' => 'Shipping Aggregator India, Courier Rate Calculator, Compare Courier Rates, Shipping Cost Calculator India, Cheap Courier Charges',
+            'description' => 'Calculate shipping rates in seconds with India\'s premier tech-enabled courier and logistics platform. Compare courier charges across top 15+ delivery partners with zero hidden fees.',
+            'keywords' => 'Logistics Platform India, Courier Rate Calculator, Compare Courier Rates, Shipping Cost Calculator India, Cheap Courier Charges',
             'type' => 'website',
             'priority' => 0.8,
             'changefreq' => 'weekly',
