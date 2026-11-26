@@ -12,7 +12,7 @@ class SellerShipmentController extends Controller
     {
         $shipment = \App\Models\Shipment::where('user_id', \Illuminate\Support\Facades\Auth::id())->where('id', $id)->firstOrFail();
         
-        $serviceability = app(\App\Services\ServiceabilityService::class)->determineRouting($shipment->delivery_pincode);
+        $serviceability = app(\App\Services\ServiceabilityService::class)->determineRouting($shipment->delivery_pincode, $shipment->pickup_pincode);
         
         $pricing = app(\App\Services\PricingService::class);
         $w = (float)($shipment->width_cm ?? 10);
@@ -25,72 +25,88 @@ class SellerShipmentController extends Controller
         
         $results = [];
 
-        // 1. If OneStall platform is available for this location, show ONLY OneStall Cargo
-        if ($serviceability['fulfillment_type'] === 'onestall') {
+        $results = [];
+
+        // 1. OneStall Cargo Option
+        try {
+            $rate = $pricing->calculateOneStallRate(
+                $shipment->pickup_pincode ?? '110001', 
+                $shipment->delivery_pincode ?? '110001', 
+                $physicalWeight, 
+                $l, $w, $h, 
+                $is_cod, 
+                $invoice_value
+            );
+            
+            $results[] = [
+                'name' => 'OneStall Cargo',
+                'transport_mode' => 'Surface',
+                'eta' => ($serviceability['fulfillment_type'] === 'onestall') ? '1-2 Days' : '2-4 Days',
+                'rating' => '5.0',
+                'rate' => round($rate['total'] ?? 0, 2),
+                'recommended' => ($serviceability['fulfillment_type'] === 'onestall')
+            ];
+        } catch (\Exception $e) {
+            $chargeableWeight = max($physicalWeight, ($l * $w * $h) / 5000);
+            $results[] = [
+                'name' => 'OneStall Cargo',
+                'transport_mode' => 'Surface',
+                'eta' => '1-2 Days',
+                'rating' => '5.0',
+                'rate' => round((1150 + ($chargeableWeight * 420)) * 1.18, 2),
+                'recommended' => ($serviceability['fulfillment_type'] === 'onestall')
+            ];
+        }
+
+        // 2. Active Partner Couriers (Xpressbees, India Post Parcel, India Post Speed Post, etc.)
+        $couriers = \App\Models\Courier::where('is_active', true)
+            ->where('name', 'NOT LIKE', '%OneStall%')
+            ->where('name', 'NOT LIKE', '%Onestall%')
+            ->get();
+        
+        foreach ($couriers as $c) {
             try {
-                $rate = $pricing->calculateOneStallRate(
+                $rc = \App\Models\RateCard::where('courier_id', $c->id)->where('is_active', true)->latest()->first();
+                $volDivisor = $rc ? $rc->volumetric_divisor : 5000;
+                $cw = max($physicalWeight, ($l * $w * $h) / $volDivisor);
+
+                $rate = $pricing->calculateExternalRate(
+                    $c->id, 
                     $shipment->pickup_pincode ?? '110001', 
                     $shipment->delivery_pincode ?? '110001', 
-                    $physicalWeight, 
-                    $l, $w, $h, 
+                    $cw, 
                     $is_cod, 
                     $invoice_value
                 );
                 
                 $results[] = [
-                    'name' => 'OneStall Cargo',
-                    'transport_mode' => 'Surface',
-                    'eta' => '1-2 Days',
-                    'rating' => '5.0',
-                    'rate' => round($rate['total'] ?? 0, 2),
-                    'recommended' => true
+                    'name' => $c->name,
+                    'transport_mode' => $c->transport_mode ?? 'Surface',
+                    'eta' => $c->eta_days ? $c->eta_days . ' Days' : '3-5 Days',
+                    'rating' => $c->rating ?? '4.0',
+                    'rate' => round($rate['total'] ?? $rate['base_freight'] ?? 0, 2),
+                    'recommended' => false
                 ];
             } catch (\Exception $e) {
-                $chargeableWeight = max($physicalWeight, ($l * $w * $h) / 5000);
-                $results[] = [
-                    'name' => 'OneStall Cargo',
-                    'transport_mode' => 'Surface',
-                    'eta' => '1-2 Days',
-                    'rating' => '5.0',
-                    'rate' => round((1150 + ($chargeableWeight * 420)) * 1.18, 2),
-                    'recommended' => true
-                ];
+                continue;
             }
-        } else {
-            // 2. If OneStall is NOT available, show third-party couriers (Xpressbees, etc.)
-            $couriers = \App\Models\Courier::where('is_active', true)->where('name', '!=', 'Onestall Cargo')->get();
-            
-            foreach ($couriers as $c) {
-                try {
-                    $rc = \App\Models\RateCard::where('courier_id', $c->id)->where('is_active', true)->latest()->first();
-                    $volDivisor = $rc ? $rc->volumetric_divisor : 5000;
-                    $cw = max($physicalWeight, ($l * $w * $h) / $volDivisor);
-
-                    $rate = $pricing->calculateExternalRate(
-                        $c->id, 
-                        $shipment->pickup_pincode ?? '110001', 
-                        $shipment->delivery_pincode ?? '110001', 
-                        $cw, 
-                        $is_cod, 
-                        $invoice_value
-                    );
-                    
-                    $results[] = [
-                        'name' => $c->name,
-                        'transport_mode' => $c->transport_mode ?? 'Surface',
-                        'eta' => $c->eta_days ? $c->eta_days . ' Days' : '3-5 Days',
-                        'rating' => $c->rating ?? '4.0',
-                        'rate' => round($rate['total'] ?? $rate['base_freight'] ?? 0, 2),
-                        'recommended' => false
-                    ];
-                } catch (\Exception $e) {
-                    continue;
+        }
+        
+        // If OneStall direct is not available, recommend the best partner courier
+        if ($serviceability['fulfillment_type'] !== 'onestall') {
+            $partnerIndex = null;
+            $minRate = PHP_FLOAT_MAX;
+            foreach ($results as $idx => $opt) {
+                if (stripos($opt['name'], 'OneStall') === false && $opt['rate'] < $minRate) {
+                    $minRate = $opt['rate'];
+                    $partnerIndex = $idx;
                 }
             }
-            
-            if (count($results) > 0) {
-                usort($results, fn($a, $b) => $a['rate'] <=> $b['rate']);
-                $results[0]['recommended'] = true;
+            if ($partnerIndex !== null) {
+                foreach ($results as $idx => &$opt) {
+                    $opt['recommended'] = ($idx === $partnerIndex);
+                }
+                unset($opt);
             }
         }
 
@@ -248,7 +264,7 @@ class SellerShipmentController extends Controller
             $chargeableWeight = max((float)$validated['weight_kg'], ($l * $w * $h) / 5000);
             $totalAmount = round((1150 + ($chargeableWeight * 420)) * 1.18, 2);
         } else {
-            $routing = app(\App\Services\ServiceabilityService::class)->determineRouting($validated['delivery_pincode']);
+            $routing = app(\App\Services\ServiceabilityService::class)->determineRouting($validated['delivery_pincode'], $validated['pickup_pincode']);
             if (!$routing['serviceable']) {
                 return back()->with('error', 'Delivery pincode is unserviceable.');
             }
@@ -677,6 +693,46 @@ class SellerShipmentController extends Controller
                     \Illuminate\Support\Facades\Log::error("Xpressbees exception for shipment {$shipment->id}: " . $e->getMessage());
                     return back()->with('error', "Xpressbees API Error: " . $e->getMessage() . ". (No wallet amount was deducted)");
                 }
+            } elseif (stripos($courier, 'indiapost') !== false || stripos($courier, 'india post') !== false) {
+                try {
+                    $articleType = (stripos($courier, 'speed') !== false) ? 'SP_INLAND_PARCEL' : 'BUSINESS_PARCEL';
+                    $ipService = new \App\Services\Couriers\IndiaPostApiService();
+                    $ipRes = $ipService->createShipment([
+                        'shipment_id'     => $shipment->id,
+                        'order_id'        => $shipment->order_id ?: ('ORD-' . $shipment->id),
+                        'article_type'    => $articleType,
+                        'is_cod'          => (bool)$shipment->is_cod,
+                        'invoice_value'   => (float)($shipment->invoice_value ?: 100),
+                        'weight_kg'       => (float)($shipment->weight_kg ?: 0.5),
+                        'length_cm'       => (float)($shipment->length_cm ?: 10),
+                        'width_cm'        => (float)($shipment->width_cm ?: 10),
+                        'height_cm'       => (float)($shipment->height_cm ?: 10),
+                        'receiver_name'   => $shipment->receiver_name ?: 'Customer',
+                        'receiver_phone'  => $shipment->receiver_phone ?: '9999999999',
+                        'receiver_email'  => $shipment->receiver_email ?: 'customer@example.com',
+                        'delivery_address'=> $shipment->delivery_address ?: 'Customer Address',
+                        'delivery_city'   => $shipment->delivery_city ?: 'City',
+                        'delivery_state'  => $shipment->delivery_state ?: 'Delhi',
+                        'delivery_pincode'=> $shipment->delivery_pincode ?: '110001',
+                        'pickup_name'     => $shipment->pickup_name ?: 'Warehouse',
+                        'pickup_phone'    => $shipment->pickup_phone ?: '9999999999',
+                        'pickup_address'  => $shipment->pickup_address ?: 'Origin Address',
+                        'pickup_city'     => $shipment->pickup_city ?: 'Gurugram',
+                        'pickup_state'    => $shipment->pickup_state ?: 'Haryana',
+                        'pickup_pincode'  => $shipment->pickup_pincode ?: '122015',
+                    ]);
+
+                    if ($ipRes['status'] === 'success') {
+                        $courierAwb = $ipRes['awb'];
+                    } else {
+                        $errMsg = $ipRes['message'] ?? 'Error pushing order to India Post';
+                        \Illuminate\Support\Facades\Log::warning("India Post booking error for shipment {$shipment->id}: {$errMsg}");
+                        return back()->with('error', "India Post Booking Failed: {$errMsg}. (No wallet amount was deducted)");
+                    }
+                } catch (\Exception $e) {
+                    \Illuminate\Support\Facades\Log::error("India Post exception for shipment {$shipment->id}: " . $e->getMessage());
+                    return back()->with('error', "India Post API Error: " . $e->getMessage() . ". (No wallet amount was deducted)");
+                }
             }
 
             // 2. Courier manifestation succeeded (or in-house courier) -> NOW adjust wallet & save shipment inside DB transaction
@@ -795,6 +851,17 @@ class SellerShipmentController extends Controller
                     \Illuminate\Support\Facades\Log::info("Xpressbees cancellation for {$shipment->courier_awb}: ", $xbCancel);
                 } catch (\Exception $e) {
                     \Illuminate\Support\Facades\Log::error("Xpressbees cancellation failed for {$shipment->courier_awb}: " . $e->getMessage());
+                }
+            } elseif (!empty($shipment->courier_awb) && (stripos($shipment->courier_partner, 'indiapost') !== false || stripos($shipment->courier_partner, 'india post') !== false)) {
+                try {
+                    \App\Models\IndiaPostAwb::where('awb_number', $shipment->courier_awb)->update([
+                        'status'      => 'available',
+                        'order_id'    => null,
+                        'shipment_id' => null,
+                    ]);
+                    \Illuminate\Support\Facades\Log::info("India Post AWB released for {$shipment->courier_awb}");
+                } catch (\Exception $e) {
+                    \Illuminate\Support\Facades\Log::error("India Post cancellation failed for {$shipment->courier_awb}: " . $e->getMessage());
                 }
             }
 

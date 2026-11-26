@@ -91,7 +91,8 @@
             }
         }
     </script>
-    <!-- AlpineJS for interactive components -->
+    <!-- AlpineJS & Collapse Plugin for interactive components -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         [x-cloak] { display: none !important; }
@@ -114,7 +115,7 @@
 <body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
 
     <!-- Global Navigation -->
-    <header class="bg-white text-brand-navy sticky top-0 z-50 shadow-sm border-b border-gray-100" x-data="{ mobileMenu: false, activeDropdown: null }">
+    <header class="bg-white text-brand-navy sticky top-0 z-50 shadow-sm border-b border-gray-100" x-data="{ mobileMenu: false, activeDropdown: null, mobileSection: null }">
         <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <!-- Left: Logo & Primary Navigation -->
@@ -218,46 +219,240 @@
                     <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-4 xl:px-5 py-2 rounded-full text-xs xl:text-sm font-bold bg-brand-red hover:bg-brand-redHover text-white transition shadow-sm whitespace-nowrap flex-shrink-0">Sign Up Free</a>
                 </div>
 
-                <!-- Mobile menu button -->
-                <div class="lg:hidden flex items-center">
-                    <button @click="mobileMenu = !mobileMenu" class="text-gray-700 hover:text-brand-red focus:outline-none p-2" aria-label="Toggle Navigation Menu">
-                        <i class="fa-solid fa-bars text-2xl" x-show="!mobileMenu"></i>
-                        <i class="fa-solid fa-xmark text-2xl" x-show="mobileMenu" x-cloak></i>
+                <!-- Mobile menu toggle button -->
+                <div class="lg:hidden flex items-center space-x-2">
+                    <a href="{{ route('track') }}" class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-gray-100 text-brand-navy hover:text-brand-red text-sm" title="Track Shipment" aria-label="Track Shipment">
+                        <i class="fa-solid fa-location-crosshairs"></i>
+                    </a>
+                    <button @click="mobileMenu = true" class="text-gray-700 hover:text-brand-red focus:outline-none p-2 rounded-lg hover:bg-gray-100 transition" aria-label="Open Navigation Menu">
+                        <i class="fa-solid fa-bars text-2xl"></i>
                     </button>
                 </div>
             </div>
         </div>
 
-                <!-- Mobile menu button -->
-                <div class="lg:hidden flex items-center">
-                    <button @click="mobileMenu = !mobileMenu" class="text-gray-700 hover:text-brand-red focus:outline-none p-2" aria-label="Toggle Navigation Menu">
-                        <i class="fa-solid fa-bars text-2xl" x-show="!mobileMenu"></i>
-                        <i class="fa-solid fa-xmark text-2xl" x-show="mobileMenu" x-cloak></i>
-                    </button>
-                </div>
-            </div>
-        </div>
+        <!-- Premium Modern Mobile Slide-Over Drawer -->
+        <div x-show="mobileMenu" 
+             x-cloak 
+             class="fixed inset-0 z-50 lg:hidden"
+             role="dialog" 
+             aria-modal="true">
+            
+            <!-- Backdrop -->
+            <div x-show="mobileMenu"
+                 x-transition:enter="transition-opacity ease-linear duration-300"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="transition-opacity ease-linear duration-300"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"
+                 @click="mobileMenu = false"
+                 class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm"></div>
 
-        <!-- Mobile Drawer Menu -->
-        <div x-show="mobileMenu" x-transition x-cloak class="lg:hidden bg-brand-blue border-t border-gray-700 h-screen overflow-y-auto">
-            <div class="px-4 pt-4 pb-32 space-y-1">
-                <a href="{{ route('services') }}" class="block px-3 py-2.5 text-base font-semibold text-white hover:bg-gray-800 rounded">All Services</a>
-                <a href="{{ route('solutions.b2c') }}" class="block px-3 py-2.5 text-sm text-gray-300 hover:text-white">B2C Express Shipping</a>
-                <a href="{{ route('solutions.b2b') }}" class="block px-3 py-2.5 text-sm text-gray-300 hover:text-white">B2B Cargo & Bulk Freight</a>
-                <a href="{{ route('solutions.international') }}" class="block px-3 py-2.5 text-sm text-gray-300 hover:text-white">International Shipping</a>
-                <a href="{{ route('solutions.quick') }}" class="block px-3 py-2.5 text-sm text-gray-300 hover:text-white">Quick Hyperlocal Delivery</a>
-                <a href="{{ route('solutions.ecommerce') }}" class="block px-3 py-2.5 text-sm text-gray-300 hover:text-white">E-commerce Integration</a>
-                <div class="border-t border-gray-700 my-2"></div>
-                <a href="{{ route('pricing') }}" class="block px-3 py-2.5 text-base font-semibold text-white hover:bg-gray-800 rounded">Rate Calculator</a>
-                <a href="{{ route('franchise') }}" class="block px-3 py-2.5 text-base font-semibold text-white hover:bg-gray-800 rounded">Courier Franchise</a>
-                <a href="{{ url('/blog') }}" class="block px-3 py-2.5 text-base font-semibold text-white hover:bg-gray-800 rounded">Logistics Blog</a>
-                <a href="{{ url('/serviceability') }}" class="block px-3 py-2.5 text-base font-semibold text-white hover:bg-gray-800 rounded">Pincode Serviceability</a>
-                <a href="{{ route('developers') }}" class="block px-3 py-2.5 text-base font-semibold text-white hover:bg-gray-800 rounded">Developers API</a>
-                <a href="{{ route('contact') }}" class="block px-3 py-2.5 text-base font-semibold text-white hover:bg-gray-800 rounded">Contact Us</a>
-                <div class="border-t border-gray-700 my-2"></div>
-                <a href="{{ route('track') }}" class="block px-3 py-3 text-base font-bold text-brand-red"><i class="fa-solid fa-location-crosshairs mr-1"></i> Track Shipment</a>
-                <a href="{{ route('login') }}" class="block px-3 py-2.5 text-base font-semibold text-white">Login</a>
-                <a href="{{ route('register') }}" class="block px-3 py-3 text-base font-bold text-white bg-brand-red rounded mt-2 text-center">Get Started Free</a>
+            <!-- Drawer Container -->
+            <div x-show="mobileMenu"
+                 x-transition:enter="transition ease-in-out duration-300 transform"
+                 x-transition:enter-start="translate-x-full"
+                 x-transition:enter-end="translate-x-0"
+                 x-transition:leave="transition ease-in-out duration-300 transform"
+                 x-transition:leave-start="translate-x-0"
+                 x-transition:leave-end="translate-x-full"
+                 class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+                
+                <div class="w-screen max-w-sm bg-white flex flex-col h-full shadow-2xl overflow-hidden">
+                    
+                    <!-- Drawer Header -->
+                    <div class="p-4 border-b border-gray-100 flex items-center justify-between bg-white z-10 flex-shrink-0">
+                        <picture>
+                            @if(file_exists(public_path('images/logo.webp')))
+                            <source srcset="{{ asset('images/logo.webp') }}" type="image/webp">
+                            @endif
+                            <img src="{{ asset('images/logo.jpg') }}" alt="OneStall Cargo" class="h-9 w-auto object-contain">
+                        </picture>
+                        <button @click="mobileMenu = false" class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 transition" aria-label="Close Menu">
+                            <i class="fa-solid fa-xmark text-lg"></i>
+                        </button>
+                    </div>
+
+                    <!-- Quick Action CTAs -->
+                    <div class="p-4 bg-slate-50 border-b border-gray-100 flex-shrink-0 space-y-2.5">
+                        <div class="grid grid-cols-2 gap-2">
+                            <a href="{{ route('login') }}" class="flex items-center justify-center py-2.5 px-3 text-sm font-semibold text-brand-navy bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition shadow-sm">
+                                <i class="fa-solid fa-arrow-right-to-bracket mr-2 text-xs text-gray-500"></i> Login
+                            </a>
+                            <a href="{{ route('register') }}" class="flex items-center justify-center py-2.5 px-3 text-sm font-bold text-white bg-brand-red rounded-xl hover:bg-brand-redHover transition shadow-sm shadow-red-500/20">
+                                Sign Up Free
+                            </a>
+                        </div>
+                        <a href="{{ route('track') }}" class="flex items-center justify-center w-full py-2.5 px-4 text-sm font-bold text-brand-navy bg-white border border-brand-red/30 rounded-xl hover:bg-red-50/50 transition">
+                            <i class="fa-solid fa-location-crosshairs mr-2 text-brand-red"></i> Track Any Consignment
+                        </a>
+                    </div>
+
+                    <!-- Scrollable Navigation Items -->
+                    <div class="flex-1 overflow-y-auto px-4 py-3 space-y-2">
+                        
+                        <!-- 1. Solutions Accordion -->
+                        <div class="border border-gray-100 rounded-xl overflow-hidden bg-white shadow-xs">
+                            <button @click="mobileSection = (mobileSection === 'solutions' ? null : 'solutions')" 
+                                    class="w-full flex items-center justify-between p-3.5 text-left font-bold text-sm text-brand-navy hover:bg-gray-50 transition">
+                                <span class="flex items-center">
+                                    <span class="w-7 h-7 rounded-lg bg-blue-50 text-brand-blue flex items-center justify-center mr-2.5 text-xs">
+                                        <i class="fa-solid fa-cubes"></i>
+                                    </span>
+                                    Shipping Solutions
+                                </span>
+                                <i class="fa-solid fa-chevron-down text-xs text-gray-400 transition-transform duration-200" :class="mobileSection === 'solutions' ? 'rotate-180' : ''"></i>
+                            </button>
+                            <div x-show="mobileSection === 'solutions'" x-collapse class="px-3 pb-3 pt-1 space-y-1 bg-slate-50/70 border-t border-gray-100">
+                                <a href="{{ route('solutions.b2c') }}" class="flex items-center px-3 py-2 text-xs font-semibold text-gray-700 hover:text-brand-red hover:bg-white rounded-lg transition">
+                                    <i class="fa-solid fa-box text-brand-blue w-5 text-center mr-2"></i> B2C Express Shipping
+                                </a>
+                                <a href="{{ route('solutions.b2b') }}" class="flex items-center px-3 py-2 text-xs font-semibold text-gray-700 hover:text-brand-red hover:bg-white rounded-lg transition">
+                                    <i class="fa-solid fa-truck-moving text-brand-blue w-5 text-center mr-2"></i> B2B Cargo &amp; Bulk Freight
+                                </a>
+                                <a href="{{ route('solutions.international') }}" class="flex items-center px-3 py-2 text-xs font-semibold text-gray-700 hover:text-brand-red hover:bg-white rounded-lg transition">
+                                    <i class="fa-solid fa-plane text-brand-blue w-5 text-center mr-2"></i> International Courier
+                                </a>
+                                <a href="{{ route('solutions.quick') }}" class="flex items-center px-3 py-2 text-xs font-semibold text-gray-700 hover:text-brand-red hover:bg-white rounded-lg transition">
+                                    <i class="fa-solid fa-bolt text-brand-blue w-5 text-center mr-2"></i> Quick Hyperlocal Delivery
+                                </a>
+                                <a href="{{ route('solutions.ecommerce') }}" class="flex items-center px-3 py-2 text-xs font-semibold text-gray-700 hover:text-brand-red hover:bg-white rounded-lg transition">
+                                    <i class="fa-solid fa-store text-brand-blue w-5 text-center mr-2"></i> E-commerce Integration
+                                </a>
+                                <a href="{{ route('services') }}" class="flex items-center px-3 py-2 text-xs font-bold text-brand-red hover:bg-white rounded-lg transition border-t border-gray-200/60 mt-1 pt-2">
+                                    <i class="fa-solid fa-list-check w-5 text-center mr-2"></i> View All Services &rarr;
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- 2. Platform Accordion -->
+                        <div class="border border-gray-100 rounded-xl overflow-hidden bg-white shadow-xs">
+                            <button @click="mobileSection = (mobileSection === 'platform' ? null : 'platform')" 
+                                    class="w-full flex items-center justify-between p-3.5 text-left font-bold text-sm text-brand-navy hover:bg-gray-50 transition">
+                                <span class="flex items-center">
+                                    <span class="w-7 h-7 rounded-lg bg-red-50 text-brand-red flex items-center justify-center mr-2.5 text-xs">
+                                        <i class="fa-solid fa-layer-group"></i>
+                                    </span>
+                                    Platform Features
+                                </span>
+                                <i class="fa-solid fa-chevron-down text-xs text-gray-400 transition-transform duration-200" :class="mobileSection === 'platform' ? 'rotate-180' : ''"></i>
+                            </button>
+                            <div x-show="mobileSection === 'platform'" x-collapse class="px-3 pb-3 pt-1 space-y-1 bg-slate-50/70 border-t border-gray-100">
+                                <a href="{{ route('platform.tracking') }}" class="flex items-center px-3 py-2 text-xs font-semibold text-gray-700 hover:text-brand-red hover:bg-white rounded-lg transition">
+                                    <i class="fa-solid fa-location-crosshairs text-brand-blue w-5 text-center mr-2"></i> Live Tracking
+                                </a>
+                                <a href="{{ route('platform.evidence') }}" class="flex items-center px-3 py-2 text-xs font-semibold text-gray-700 hover:text-brand-red hover:bg-white rounded-lg transition">
+                                    <i class="fa-solid fa-video text-brand-blue w-5 text-center mr-2"></i> Video Evidence
+                                </a>
+                                <a href="{{ route('platform.ndr') }}" class="flex items-center px-3 py-2 text-xs font-semibold text-gray-700 hover:text-brand-red hover:bg-white rounded-lg transition">
+                                    <i class="fa-solid fa-phone-volume text-brand-blue w-5 text-center mr-2"></i> NDR Automation
+                                </a>
+                                <a href="{{ route('platform.rto') }}" class="flex items-center px-3 py-2 text-xs font-semibold text-gray-700 hover:text-brand-red hover:bg-white rounded-lg transition">
+                                    <i class="fa-solid fa-arrow-rotate-left text-brand-blue w-5 text-center mr-2"></i> RTO Reduction
+                                </a>
+                                <a href="{{ route('platform.cod') }}" class="flex items-center px-3 py-2 text-xs font-semibold text-gray-700 hover:text-brand-red hover:bg-white rounded-lg transition">
+                                    <i class="fa-solid fa-indian-rupee-sign text-brand-blue w-5 text-center mr-2"></i> 1-2 Day COD Settlement
+                                </a>
+                                <a href="{{ route('platform.awb') }}" class="flex items-center px-3 py-2 text-xs font-semibold text-gray-700 hover:text-brand-red hover:bg-white rounded-lg transition">
+                                    <i class="fa-solid fa-barcode text-brand-blue w-5 text-center mr-2"></i> AWB &amp; Shipping Labels
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- 3. Business & Franchise Accordion -->
+                        <div class="border border-gray-100 rounded-xl overflow-hidden bg-white shadow-xs">
+                            <button @click="mobileSection = (mobileSection === 'business' ? null : 'business')" 
+                                    class="w-full flex items-center justify-between p-3.5 text-left font-bold text-sm text-brand-navy hover:bg-gray-50 transition">
+                                <span class="flex items-center">
+                                    <span class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center mr-2.5 text-xs">
+                                        <i class="fa-solid fa-briefcase"></i>
+                                    </span>
+                                    Business &amp; Growth
+                                </span>
+                                <i class="fa-solid fa-chevron-down text-xs text-gray-400 transition-transform duration-200" :class="mobileSection === 'business' ? 'rotate-180' : ''"></i>
+                            </button>
+                            <div x-show="mobileSection === 'business'" x-collapse class="px-3 pb-3 pt-1 space-y-1 bg-slate-50/70 border-t border-gray-100">
+                                <a href="{{ route('pricing') }}" class="flex items-center px-3 py-2 text-xs font-semibold text-gray-700 hover:text-brand-red hover:bg-white rounded-lg transition">
+                                    <i class="fa-solid fa-calculator text-amber-600 w-5 text-center mr-2"></i> Shipping Rate Calculator
+                                </a>
+                                <a href="{{ route('franchise') }}" class="flex items-center px-3 py-2 text-xs font-semibold text-gray-700 hover:text-brand-red hover:bg-white rounded-lg transition">
+                                    <i class="fa-solid fa-store text-amber-600 w-5 text-center mr-2"></i> Courier Franchise Opportunity
+                                </a>
+                                <a href="{{ route('corporate') }}" class="flex items-center px-3 py-2 text-xs font-semibold text-gray-700 hover:text-brand-red hover:bg-white rounded-lg transition">
+                                    <i class="fa-solid fa-building text-amber-600 w-5 text-center mr-2"></i> Corporate Supply Chain
+                                </a>
+                                <a href="{{ route('partners') }}" class="flex items-center px-3 py-2 text-xs font-semibold text-gray-700 hover:text-brand-red hover:bg-white rounded-lg transition">
+                                    <i class="fa-solid fa-handshake text-amber-600 w-5 text-center mr-2"></i> Fleet &amp; Delivery Partners
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- 4. Developers & API Accordion -->
+                        <div class="border border-gray-100 rounded-xl overflow-hidden bg-white shadow-xs">
+                            <button @click="mobileSection = (mobileSection === 'developers' ? null : 'developers')" 
+                                    class="w-full flex items-center justify-between p-3.5 text-left font-bold text-sm text-brand-navy hover:bg-gray-50 transition">
+                                <span class="flex items-center">
+                                    <span class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center mr-2.5 text-xs">
+                                        <i class="fa-solid fa-code"></i>
+                                    </span>
+                                    Developers &amp; API
+                                </span>
+                                <i class="fa-solid fa-chevron-down text-xs text-gray-400 transition-transform duration-200" :class="mobileSection === 'developers' ? 'rotate-180' : ''"></i>
+                            </button>
+                            <div x-show="mobileSection === 'developers'" x-collapse class="px-3 pb-3 pt-1 space-y-1 bg-slate-50/70 border-t border-gray-100">
+                                <a href="{{ route('developers') }}" class="flex items-center px-3 py-2 text-xs font-semibold text-gray-700 hover:text-brand-red hover:bg-white rounded-lg transition">
+                                    <i class="fa-solid fa-terminal text-emerald-600 w-5 text-center mr-2"></i> API Platform
+                                </a>
+                                <a href="{{ route('docs') }}" class="flex items-center px-3 py-2 text-xs font-semibold text-gray-700 hover:text-brand-red hover:bg-white rounded-lg transition">
+                                    <i class="fa-solid fa-book-open text-emerald-600 w-5 text-center mr-2"></i> API Documentation
+                                </a>
+                                <a href="{{ route('docs.postman') }}" class="flex items-center px-3 py-2 text-xs font-semibold text-gray-700 hover:text-brand-red hover:bg-white rounded-lg transition">
+                                    <i class="fa-solid fa-cloud-arrow-down text-emerald-600 w-5 text-center mr-2"></i> Postman Collection
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- 5. Direct Single Links (Pincode, Blog, Contact, About) -->
+                        <div class="pt-2 space-y-1">
+                            <a href="{{ url('/serviceability') }}" class="flex items-center px-3.5 py-2.5 text-sm font-semibold text-gray-700 hover:text-brand-red hover:bg-gray-50 rounded-xl transition">
+                                <span class="w-7 h-7 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center mr-2.5 text-xs">
+                                    <i class="fa-solid fa-map-location-dot"></i>
+                                </span>
+                                Pincode Serviceability
+                            </a>
+                            <a href="{{ url('/blog') }}" class="flex items-center px-3.5 py-2.5 text-sm font-semibold text-gray-700 hover:text-brand-red hover:bg-gray-50 rounded-xl transition">
+                                <span class="w-7 h-7 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center mr-2.5 text-xs">
+                                    <i class="fa-solid fa-newspaper"></i>
+                                </span>
+                                Logistics Blog
+                            </a>
+                            <a href="{{ route('about') }}" class="flex items-center px-3.5 py-2.5 text-sm font-semibold text-gray-700 hover:text-brand-red hover:bg-gray-50 rounded-xl transition">
+                                <span class="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center mr-2.5 text-xs">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                </span>
+                                About OneStall
+                            </a>
+                            <a href="{{ route('contact') }}" class="flex items-center px-3.5 py-2.5 text-sm font-semibold text-gray-700 hover:text-brand-red hover:bg-gray-50 rounded-xl transition">
+                                <span class="w-7 h-7 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center mr-2.5 text-xs">
+                                    <i class="fa-solid fa-headset"></i>
+                                </span>
+                                Help &amp; Contact Us
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Drawer Footer / Helpline -->
+                    <div class="p-4 bg-slate-50 border-t border-gray-100 flex-shrink-0 text-center">
+                        <a href="tel:+917376490981" class="inline-flex items-center justify-center w-full py-2 px-3 text-xs font-bold text-gray-800 bg-white border border-gray-200 rounded-xl hover:border-brand-red hover:text-brand-red transition shadow-xs">
+                            <i class="fa-solid fa-phone text-emerald-500 mr-2 text-[11px]"></i> Helpline: +91 73764 90981
+                        </a>
+                        <p class="text-[10px] text-gray-600 mt-2">
+                            Operating Mon-Sat: 09:30 AM – 06:30 PM
+                        </p>
+                    </div>
+
+                </div>
             </div>
         </div>
     </header>

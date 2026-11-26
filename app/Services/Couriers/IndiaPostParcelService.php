@@ -7,15 +7,17 @@ use App\Models\RateCard;
 class IndiaPostParcelService implements CourierInterface
 {
     protected array $credentials;
+    protected IndiaPostApiService $apiService;
 
     public function __construct(array $credentials = [])
     {
         $this->credentials = $credentials;
+        $this->apiService = new IndiaPostApiService($credentials);
     }
 
     public function checkServiceability(string $pincode): bool
     {
-        return true; 
+        return $this->apiService->checkServiceability($pincode);
     }
 
     public function calculateRate(string $pickup_pincode, string $delivery_pincode, float $weight, bool $is_cod = false, float $invoice_value = 0): array
@@ -66,12 +68,13 @@ class IndiaPostParcelService implements CourierInterface
 
     public function createShipment(array $shipmentDetails): array
     {
-        return ['status' => 'error', 'message' => 'Not implemented yet'];
+        $shipmentDetails['article_type'] = $shipmentDetails['article_type'] ?? 'BUSINESS_PARCEL';
+        return $this->apiService->createShipment($shipmentDetails);
     }
 
     public function trackShipment(string $awb): array
     {
-        return ['status' => 'error', 'message' => 'Not implemented yet'];
+        return $this->apiService->trackShipment($awb);
     }
 
     private function calculateFreight(float $weight, $zr): float

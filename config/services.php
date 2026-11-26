@@ -60,4 +60,22 @@ return [
         ]
     ],
 
+    'indiapost' => [
+        'base_url'         => env('INDIAPOST_BASE_URL', 'https://test.cept.gov.in/beextcustomer'),
+        'username'         => env('INDIAPOST_USERNAME', '9999999999'),
+        'password'         => env('INDIAPOST_PASSWORD', 'Dop@1234'),
+        'customer_id'      => env('INDIAPOST_CUSTOMER_ID', '3000064781'),
+        'contract_id'      => env('INDIAPOST_CONTRACT_ID', '41585456'),
+        'pickup_office_id' => env('INDIAPOST_PICKUP_OFFICE_ID', 11000100),
+        'endpoints'        => [
+            'login'                  => '/v1/access/login',
+            'pincode_search'         => '/v1/pincode-search',
+            'speed_post_tariff'      => '/v1/speed-post/tariffs',
+            'business_parcel_tariff' => '/v1/business-parcel-tariff/calculate',
+            'process_articles'       => '/process-articles', // followed by /{customerId}
+            'label'                  => '/v1/label/create/domestic',
+            'tracking_bulk'          => '/v1/tracking/bulk',
+        ],
+    ],
+
 ];

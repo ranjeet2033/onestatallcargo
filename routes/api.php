@@ -38,3 +38,6 @@ Route::prefix('v1/external')->group(function () {
 // E-commerce Platform Webhooks (WooCommerce, Shopify, Custom)
 Route::post('/v1/integrations/{platform}/webhook/{user_id}', [\App\Http\Controllers\Api\V1\IntegrationWebhookController::class, 'handle'])->name('api.integrations.webhook');
 
+// Courier Webhooks
+Route::post('/v1/courier/indiapost/webhook', [\App\Http\Controllers\Api\V1\IndiaPostWebhookController::class, 'handle'])->name('api.courier.indiapost.webhook');
+

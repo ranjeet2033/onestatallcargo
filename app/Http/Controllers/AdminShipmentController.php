@@ -136,7 +136,7 @@ class AdminShipmentController extends Controller
             'product_name' => 'nullable|string'
         ]);
 
-        $routing = app(\App\Services\ServiceabilityService::class)->determineRouting($validated['delivery_pincode']);
+        $routing = app(\App\Services\ServiceabilityService::class)->determineRouting($validated['delivery_pincode'], $validated['pickup_pincode'] ?? null);
         if (!$routing['serviceable']) {
             return back()->with('error', 'Delivery pincode unserviceable');
         }
@@ -391,6 +391,17 @@ class AdminShipmentController extends Controller
                 \Illuminate\Support\Facades\Log::info("Xpressbees cancellation for {$shipment->courier_awb}: ", $xbCancel);
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error("Xpressbees cancellation failed for {$shipment->courier_awb}: " . $e->getMessage());
+            }
+        } elseif (!empty($shipment->courier_awb) && (stripos($shipment->courier_partner, 'indiapost') !== false || stripos($shipment->courier_partner, 'india post') !== false)) {
+            try {
+                \App\Models\IndiaPostAwb::where('awb_number', $shipment->courier_awb)->update([
+                    'status'      => 'available',
+                    'order_id'    => null,
+                    'shipment_id' => null,
+                ]);
+                \Illuminate\Support\Facades\Log::info("India Post AWB released for {$shipment->courier_awb}");
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error("India Post cancellation failed for {$shipment->courier_awb}: " . $e->getMessage());
             }
         }
 

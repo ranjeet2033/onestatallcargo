@@ -127,32 +127,19 @@ class RateCalculatorController extends Controller
         $routing = app(\App\Services\ServiceabilityService::class)->determineRouting($deliveryPin);
         $isOneStallServiceable = ($routing['fulfillment_type'] === 'onestall');
 
-        // Rule: Agar OneStall platform available hai to KEVAl OneStall show hoga, agar nahi hai to 3rd party
-        if ($isOneStallServiceable) {
-            $activeCouriers = Courier::where('is_active', true)
-                ->where(function($q) {
-                    $q->where('name', 'LIKE', '%OneStall%')
-                      ->orWhere('name', 'LIKE', '%Onestall%');
-                })->get();
+        // Show all active couriers (OneStall Cargo + Partner Couriers like Xpressbees, India Post)
+        $activeCouriers = Courier::where('is_active', true)->get();
 
-            if ($activeCouriers->isEmpty()) {
-                $activeCouriers = collect([
-                    (object) [
-                        'id' => 999,
-                        'name' => 'OneStall Cargo (Direct)',
-                        'mode' => 'production',
-                        'is_active' => true,
-                        'markup_type' => 'percentage',
-                        'markup_value' => 0
-                    ]
-                ]);
-            }
-        } else {
-            // Agar OneStall nahi hai to 3rd party couriers (Xpressbees, etc.) show honge
-            $activeCouriers = Courier::where('is_active', true)
-                ->where('name', 'NOT LIKE', '%OneStall%')
-                ->where('name', 'NOT LIKE', '%Onestall%')
-                ->get();
+        $hasOneStall = $activeCouriers->contains(fn($c) => stripos($c->name, 'OneStall') !== false);
+        if (!$hasOneStall) {
+            $activeCouriers->prepend((object) [
+                'id' => 8,
+                'name' => 'OneStall Cargo',
+                'mode' => 'production',
+                'is_active' => true,
+                'markup_type' => 'percentage',
+                'markup_value' => 0
+            ]);
         }
 
         if ($activeCouriers->isEmpty()) {
@@ -271,8 +258,13 @@ class RateCalculatorController extends Controller
             }
         }
 
-        // Sort by total_rate ascending (cheapest first)
-        usort($ratesList, function ($a, $b) {
+        // Sort by priority: If OneStall direct is serviceable, OneStall first, then by total_rate
+        usort($ratesList, function ($a, $b) use ($isOneStallServiceable) {
+            $aIsOneStall = stripos($a['courier_name'], 'OneStall') !== false;
+            $bIsOneStall = stripos($b['courier_name'], 'OneStall') !== false;
+            if ($isOneStallServiceable && $aIsOneStall !== $bIsOneStall) {
+                return $aIsOneStall ? -1 : 1;
+            }
             return $a['total_rate'] <=> $b['total_rate'];
         });
 

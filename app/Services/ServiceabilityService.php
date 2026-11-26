@@ -14,12 +14,27 @@ class ServiceabilityService
      */
     public function determineRouting(string $deliveryPincode, ?string $pickupPincode = null): array
     {
-        // PRIORITY 1: OneStall Cargo own service/franchise
-        $franchiseId = $this->getFranchiseForPincode($deliveryPincode);
-        $isDirectlyServiceable = \App\Models\ServiceablePincode::where('pincode', $deliveryPincode)->where('is_active', true)->exists();
+        // Check destination serviceability in OneStall network
+        $destFranchiseId = $this->getFranchiseForPincode($deliveryPincode);
+        $isDestDirectlyServiceable = \App\Models\ServiceablePincode::where('pincode', $deliveryPincode)->where('is_active', true)->exists();
+        $isDestServiceable = ($destFranchiseId || $isDestDirectlyServiceable);
 
-        if ($franchiseId || $isDirectlyServiceable) {
-            $destFranchise = $franchiseId ? Franchise::find($franchiseId) : null;
+        // Check pickup serviceability in OneStall network (if pickup pincode provided)
+        $pickupFranchiseId = null;
+        $isPickupServiceable = false;
+        if (!empty($pickupPincode)) {
+            $pickupFranchiseId = $this->getFranchiseForPincode($pickupPincode);
+            $isPickupDirectlyServiceable = \App\Models\ServiceablePincode::where('pincode', $pickupPincode)->where('is_active', true)->exists();
+            $isPickupServiceable = ($pickupFranchiseId || $isPickupDirectlyServiceable);
+        } else {
+            // When pickup is not provided, default to matching destination status
+            $isPickupServiceable = true;
+        }
+
+        // PRIORITY 1: OneStall Cargo own service/franchise
+        // BOTH pickup and delivery must be serviceable in OneStall network for own fulfillment!
+        if ($isDestServiceable && $isPickupServiceable) {
+            $destFranchise = $destFranchiseId ? Franchise::find($destFranchiseId) : null;
             $districtFranchiseId = null;
             $stateFranchiseId = null;
 
@@ -33,22 +48,26 @@ class ServiceabilityService
                 }
             }
 
-            $pickupFranchiseId = $pickupPincode ? $this->getFranchiseForPincode($pickupPincode) : null;
-
             return [
                 'serviceable' => true,
                 'fulfillment_type' => 'onestall',
-                'franchise_id' => $districtFranchiseId ?? $franchiseId,
-                'district_franchise_id' => $districtFranchiseId ?? $franchiseId,
+                'franchise_id' => $districtFranchiseId ?? $destFranchiseId,
+                'district_franchise_id' => $districtFranchiseId ?? $destFranchiseId,
                 'state_franchise_id' => $stateFranchiseId,
                 'pickup_franchise_id' => $pickupFranchiseId,
                 'provider_id' => null,
-                'reason' => 'OneStall Cargo network service available',
+                'reason' => 'OneStall Cargo network service available for both pickup and delivery',
             ];
         }
 
         // PRIORITY 2: External Courier (Fallback)
-        $provider = Courier::where('is_active', true)->where('name', '!=', 'Onestall Cargo')->first();
+        // Prioritize Xpressbees if active, or next active partner courier
+        $provider = Courier::where('is_active', true)
+            ->where('name', 'NOT LIKE', '%OneStall%')
+            ->where('name', 'NOT LIKE', '%Onestall%')
+            ->orderByRaw("CASE WHEN name LIKE '%Xpressbees%' THEN 0 ELSE 1 END")
+            ->orderBy('id', 'asc')
+            ->first();
         
         if ($provider) {
              return [
@@ -56,7 +75,35 @@ class ServiceabilityService
                 'fulfillment_type' => 'external',
                 'franchise_id' => null,
                 'provider_id' => $provider->id,
-                'reason' => 'OneStall Cargo service unavailable',
+                'reason' => 'OneStall Cargo direct route unavailable; routed to partner courier (' . $provider->name . ')',
+            ];
+        }
+
+        // PRIORITY 3: If destination is serviceable by OneStall and no external courier exists
+        if ($isDestServiceable) {
+            $destFranchise = $destFranchiseId ? Franchise::find($destFranchiseId) : null;
+            $districtFranchiseId = null;
+            $stateFranchiseId = null;
+
+            if ($destFranchise) {
+                if ($destFranchise->isState()) {
+                    $stateFranchiseId = $destFranchise->id;
+                    $districtFranchiseId = $destFranchise->id;
+                } else {
+                    $districtFranchiseId = $destFranchise->id;
+                    $stateFranchiseId = $destFranchise->parent_franchise_id;
+                }
+            }
+
+            return [
+                'serviceable' => true,
+                'fulfillment_type' => 'onestall',
+                'franchise_id' => $districtFranchiseId ?? $destFranchiseId,
+                'district_franchise_id' => $districtFranchiseId ?? $destFranchiseId,
+                'state_franchise_id' => $stateFranchiseId,
+                'pickup_franchise_id' => $pickupFranchiseId,
+                'provider_id' => null,
+                'reason' => 'OneStall Cargo network service available for delivery',
             ];
         }
         

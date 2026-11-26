@@ -78,7 +78,7 @@ class XpressbeesService implements CourierInterface
             $baseFreight = ($zoneMultipliers[$zoneIndex] ?? 55.00) + (max(0, $weight - 0.5) * 35.00);
             $fsc = round($baseFreight * 0.10, 2);
             $subtotal = round($baseFreight + $fsc, 2);
-            $codCharge = $is_cod ? max(35.00, round($invoice_value * 0.015, 2)) : 0;
+            $codCharge = $is_cod ? max(30.00, round($invoice_value * 0.02, 2)) : 0;
             $total = round($subtotal + $codCharge, 2);
 
             return [
@@ -91,7 +91,7 @@ class XpressbeesService implements CourierInterface
                 'margin_pct'     => '0%',
                 'subtotal'       => $subtotal,
                 'cod_charge'     => $codCharge,
-                'cod_formula'    => "Max(₹35, 1.5% of invoice value)",
+                'cod_formula'    => "Max(₹30, 2% of invoice value)",
                 'base_rate'      => $total,
                 'total'          => $total,
                 'breakdown'      => [

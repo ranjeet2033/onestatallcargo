@@ -7,9 +7,11 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('shipments', function (Blueprint $table) {
-            $table->decimal('cod_amount', 10, 2)->nullable()->after('invoice_value');
-        });
+        if (!Schema::hasColumn('shipments', 'cod_amount')) {
+            Schema::table('shipments', function (Blueprint $table) {
+                $table->decimal('cod_amount', 10, 2)->nullable()->after('invoice_value');
+            });
+        }
     }
 
     public function down()
