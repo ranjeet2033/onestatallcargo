@@ -42,13 +42,14 @@
 <div x-show="mobileSidebarOpen" x-transition.opacity class="fixed inset-0 bg-gray-900/40 z-40 md:hidden" style="display: none;" @click="mobileSidebarOpen = false"></div>
 
 <!-- Sidebar -->
-<div @mouseenter="sidebarHover = true" 
-     @mouseleave="sidebarHover = false"
-     :class="{
-         'w-64 shadow-2xl z-50 translate-x-0 fixed inset-y-0 left-0 md:relative': (sidebarHover || isPinned || mobileSidebarOpen),
-         'w-64 -translate-x-full fixed inset-y-0 left-0 md:relative md:translate-x-0 md:w-20 z-30': !(sidebarHover || isPinned || mobileSidebarOpen)
-     }"
-     class="flex flex-col shrink-0 transition-all duration-300 ease-in-out h-screen relative" style="background-color: var(--theme-bg);">
+<aside @mouseenter="sidebarHover = true" 
+       @mouseleave="sidebarHover = false"
+       :class="{
+           'w-64 shadow-2xl translate-x-0': (mobileSidebarOpen || sidebarHover || isPinned),
+           '-translate-x-full md:translate-x-0 w-64 md:w-20': !(mobileSidebarOpen || sidebarHover || isPinned)
+       }"
+       class="fixed inset-y-0 left-0 z-50 flex flex-col shrink-0 transition-all duration-300 ease-in-out h-screen md:relative md:z-30" 
+       style="background-color: var(--theme-bg);">
     <button 
         @click="isPinned = !isPinned" 
         class="absolute -right-3 top-6 md:flex hidden w-6 h-6 bg-white border border-gray-200 rounded-full items-center justify-center text-gray-500 hover:text-[#4338ca] shadow-md z-50 transition-all duration-300"
@@ -57,11 +58,14 @@
         <i class="fa-solid fa-chevron-left text-[10px]"></i>
     </button>
 <div class="flex flex-col flex-1 overflow-y-auto overflow-x-hidden scrollbar-hide">
-            <div class="px-4 mb-6 mt-5 flex items-center h-10 transition-all overflow-hidden" :class="(sidebarHover || isPinned || mobileSidebarOpen) ? 'justify-start' : 'justify-center'">
+            <div class="px-4 mb-6 mt-5 flex items-center h-10 transition-all overflow-hidden" :class="(sidebarHover || isPinned || mobileSidebarOpen) ? 'justify-between' : 'justify-center'">
                 <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5">
                     <img src="{{ asset('images/logo.jpg') }}" alt="OneStall Cargo" class="object-contain rounded bg-white p-1 transition-all duration-300" :class="(sidebarHover || isPinned || mobileSidebarOpen) ? 'h-10 max-w-[140px]' : 'h-8 w-8'">
                     <span x-show="sidebarHover || isPinned || mobileSidebarOpen" x-transition.opacity class="text-[10px] text-[var(--gold)] font-bold uppercase tracking-wider">Admin</span>
                 </a>
+                <button type="button" @click="mobileSidebarOpen = false" x-show="mobileSidebarOpen" class="md:hidden text-gray-400 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition focus:outline-none" aria-label="Close menu">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
             </div>
 
             <nav class="flex-1 space-y-1 px-2 pb-4">
@@ -117,26 +121,28 @@
                 </div>
             </div>
         </div>
-    </div>
+    </aside>
 
     <!-- Main Container -->
-    <div class="flex-1 flex flex-col transition-all duration-300 h-full overflow-hidden relative">
+    <div class="flex-1 flex flex-col transition-all duration-300 h-full overflow-hidden relative min-w-0 w-full">
         <div class="flex h-16 shrink-0 bg-white shadow-sm border-b border-gray-200">
-            <button type="button" @click="mobileSidebarOpen = true" class="px-4 text-gray-500 md:hidden border-r border-gray-200"><i class="fa-solid fa-bars text-xl"></i></button>
-            <div class="flex flex-1 justify-between px-4 items-center">
-                <div class="flex items-center gap-2">
-                    <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <h2 class="text-sm sm:text-base font-extrabold text-gray-800">
+            <button type="button" @click="mobileSidebarOpen = true" class="px-4 text-gray-600 hover:text-gray-900 md:hidden border-r border-gray-200 hover:bg-gray-50 transition focus:outline-none" aria-label="Open navigation menu">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+            <div class="flex flex-1 justify-between px-3 sm:px-4 items-center min-w-0">
+                <div class="flex items-center gap-2 min-w-0">
+                    <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+                    <h2 class="text-sm sm:text-base font-extrabold text-gray-800 truncate">
                         <span class="hidden sm:inline">OneStall Cargo Command Center</span>
                         <span class="sm:hidden">OneStall Admin</span>
                     </h2>
                 </div>
 
                 <!-- Right: Admin Profile & Menu -->
-                <div class="flex items-center gap-2 sm:gap-3" x-data="{ openAdminMenu: false }">
+                <div class="flex items-center gap-2 sm:gap-3 shrink-0" x-data="{ openAdminMenu: false }">
                     <!-- User Profile Dropdown -->
                     <div class="relative">
-                        <button @click="openAdminMenu = !openAdminMenu" class="flex items-center gap-2 p-1.5 rounded-xl hover:bg-gray-100 transition focus:outline-none">
+                        <button @click="openAdminMenu = !openAdminMenu" class="flex items-center gap-1.5 sm:gap-2 p-1.5 rounded-xl hover:bg-gray-100 transition focus:outline-none">
                             <div class="w-8 h-8 rounded-full bg-slate-900 text-yellow-400 font-black text-xs flex items-center justify-center shadow-xs">
                                 {{ strtoupper(substr(Auth::user()->name ?? 'A', 0, 1)) }}
                             </div>

@@ -5,13 +5,13 @@
 <div class="space-y-6 max-w-[1400px] mx-auto">
     
     <!-- Top Greeting Row -->
-    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div class="flex items-center gap-4">
-            <h2 class="text-2xl font-bold text-gray-900 tracking-tight">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+        <div class="flex flex-wrap items-center gap-2 sm:gap-4">
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">
                 Hello, {{ Auth::user()->name ?? 'Administrator' }} 👋
             </h2>
-            <div class="flex items-center gap-3">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[11px] font-bold text-emerald-600">
+            <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[10px] sm:text-[11px] font-bold text-emerald-600">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                     Master Node Active
                 </span>
@@ -21,25 +21,25 @@
             </div>
         </div>
         <div class="shrink-0 flex items-center gap-3">
-            <button class="px-4 py-2 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2">
+            <button class="px-3 sm:px-4 py-1.5 sm:py-2 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2">
                 <i class="fa-regular fa-calendar text-gray-400"></i> {{ \Carbon\Carbon::now()->format('d M Y (l)') }}
             </button>
         </div>
     </div>
 
     <!-- Summary Metrics Grid (10 Cards) -->
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
         
         <!-- Total Shipments -->
-        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5 flex flex-col justify-between">
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-4 sm:p-5 flex flex-col justify-between">
             <div class="flex justify-between items-start">
                 <p class="text-[11px] font-bold text-gray-600">Platform Shipments</p>
                 <div class="w-7 h-7 rounded-full border border-gray-100 flex items-center justify-center text-gray-400">
                     <i class="fa-solid fa-layer-group text-[10px]"></i>
                 </div>
             </div>
-            <div class="my-4">
-                <h3 class="text-3xl font-black text-gray-900">{{ number_format($totalShipments ?? 0) }}</h3>
+            <div class="my-3 sm:my-4">
+                <h3 class="text-2xl sm:text-3xl font-black text-gray-900">{{ number_format($totalShipments ?? 0) }}</h3>
             </div>
             <p class="text-[10px] font-semibold text-gray-500 pt-2 border-t border-gray-100">
                 Yesterday: <span class="text-gray-900">{{ number_format($yesterdayShipments ?? 0) }} orders</span>
@@ -47,15 +47,15 @@
         </div>
 
         <!-- Pending Pickups -->
-        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5 flex flex-col justify-between">
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-4 sm:p-5 flex flex-col justify-between">
             <div class="flex justify-between items-start">
                 <p class="text-[11px] font-bold text-gray-600">Pending Pickups</p>
                 <div class="w-7 h-7 rounded-full border border-amber-100 flex items-center justify-center text-amber-500 bg-amber-50/50">
                     <i class="fa-solid fa-boxes-packing text-[10px]"></i>
                 </div>
             </div>
-            <div class="my-4">
-                <h3 class="text-3xl font-black text-gray-900">{{ number_format($pendingPickups ?? 0) }}</h3>
+            <div class="my-3 sm:my-4">
+                <h3 class="text-2xl sm:text-3xl font-black text-gray-900">{{ number_format($pendingPickups ?? 0) }}</h3>
             </div>
             <p class="text-[10px] font-semibold text-gray-500 pt-2 border-t border-gray-100">
                 Awaiting Hub Action
@@ -63,15 +63,15 @@
         </div>
 
         <!-- In Transit -->
-        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5 flex flex-col justify-between">
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-4 sm:p-5 flex flex-col justify-between">
             <div class="flex justify-between items-start">
                 <p class="text-[11px] font-bold text-gray-600">In Transit</p>
                 <div class="w-7 h-7 rounded-full border border-gray-100 flex items-center justify-center text-gray-400">
                     <i class="fa-solid fa-truck-fast text-[10px]"></i>
                 </div>
             </div>
-            <div class="my-4">
-                <h3 class="text-3xl font-black text-gray-900">{{ number_format($inTransit ?? 0) }}</h3>
+            <div class="my-3 sm:my-4">
+                <h3 class="text-2xl sm:text-3xl font-black text-gray-900">{{ number_format($inTransit ?? 0) }}</h3>
             </div>
             <p class="text-[10px] font-semibold text-gray-500 pt-2 border-t border-gray-100">
                 Active carrier lines
@@ -79,15 +79,15 @@
         </div>
 
         <!-- Delivered Today -->
-        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5 flex flex-col justify-between">
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-4 sm:p-5 flex flex-col justify-between">
             <div class="flex justify-between items-start">
                 <p class="text-[11px] font-bold text-gray-600">Delivered Today</p>
                 <div class="w-7 h-7 rounded-full border border-emerald-100 flex items-center justify-center text-emerald-500 bg-emerald-50/50">
                     <i class="fa-solid fa-check-double text-[10px]"></i>
                 </div>
             </div>
-            <div class="my-4">
-                <h3 class="text-3xl font-black text-gray-900">{{ number_format($deliveredToday ?? 0) }}</h3>
+            <div class="my-3 sm:my-4">
+                <h3 class="text-2xl sm:text-3xl font-black text-gray-900">{{ number_format($deliveredToday ?? 0) }}</h3>
             </div>
             <p class="text-[10px] font-semibold text-gray-500 pt-2 border-t border-gray-100">
                 Yesterday: <span class="text-gray-900">{{ number_format($yesterdayDelivered ?? 0) }} delivered</span>
@@ -95,15 +95,15 @@
         </div>
 
         <!-- Active NDR -->
-        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5 flex flex-col justify-between">
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-4 sm:p-5 flex flex-col justify-between">
             <div class="flex justify-between items-start">
                 <p class="text-[11px] font-bold text-gray-600">Active NDR</p>
                 <div class="w-7 h-7 rounded-full border border-rose-100 flex items-center justify-center text-rose-500 bg-rose-50/50">
                     <i class="fa-solid fa-triangle-exclamation text-[10px]"></i>
                 </div>
             </div>
-            <div class="my-4">
-                <h3 class="text-3xl font-black text-gray-900">{{ number_format($ndrCount ?? 0) }}</h3>
+            <div class="my-3 sm:my-4">
+                <h3 class="text-2xl sm:text-3xl font-black text-gray-900">{{ number_format($ndrCount ?? 0) }}</h3>
             </div>
             <p class="text-[10px] font-semibold text-gray-500 pt-2 border-t border-gray-100">
                 Yesterday: <span class="text-gray-900">{{ number_format($yesterdayNdr ?? 0) }} NDR</span>
@@ -111,15 +111,15 @@
         </div>
 
         <!-- Total RTO -->
-        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5 flex flex-col justify-between">
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-4 sm:p-5 flex flex-col justify-between">
             <div class="flex justify-between items-start">
                 <p class="text-[11px] font-bold text-gray-600">RTO Returns</p>
                 <div class="w-7 h-7 rounded-full border border-gray-100 flex items-center justify-center text-gray-400">
                     <i class="fa-solid fa-rotate-left text-[10px]"></i>
                 </div>
             </div>
-            <div class="my-4">
-                <h3 class="text-3xl font-black text-gray-900">{{ number_format($rtoCount ?? 0) }}</h3>
+            <div class="my-3 sm:my-4">
+                <h3 class="text-2xl sm:text-3xl font-black text-gray-900">{{ number_format($rtoCount ?? 0) }}</h3>
             </div>
             <p class="text-[10px] font-semibold text-gray-500 pt-2 border-t border-gray-100">
                 Yesterday: <span class="text-gray-900">{{ number_format($yesterdayRto ?? 0) }} RTO</span>
@@ -127,15 +127,15 @@
         </div>
 
         <!-- Network Hubs -->
-        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5 flex flex-col justify-between">
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-4 sm:p-5 flex flex-col justify-between">
             <div class="flex justify-between items-start">
                 <p class="text-[11px] font-bold text-gray-600">Franchise Hubs</p>
                 <div class="w-7 h-7 rounded-full border border-gray-100 flex items-center justify-center text-gray-400">
                     <i class="fa-solid fa-shop text-[10px]"></i>
                 </div>
             </div>
-            <div class="my-4">
-                <h3 class="text-3xl font-black text-gray-900">{{ number_format($activeHubs ?? 0) }}</h3>
+            <div class="my-3 sm:my-4">
+                <h3 class="text-2xl sm:text-3xl font-black text-gray-900">{{ number_format($activeHubs ?? 0) }}</h3>
             </div>
             <p class="text-[10px] font-semibold text-gray-500 pt-2 border-t border-gray-100">
                 Regional processing centers
@@ -143,15 +143,15 @@
         </div>
 
         <!-- Active Riders -->
-        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5 flex flex-col justify-between">
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-4 sm:p-5 flex flex-col justify-between">
             <div class="flex justify-between items-start">
                 <p class="text-[11px] font-bold text-gray-600">Field Riders</p>
                 <div class="w-7 h-7 rounded-full border border-gray-100 flex items-center justify-center text-gray-400">
                     <i class="fa-solid fa-motorcycle text-[10px]"></i>
                 </div>
             </div>
-            <div class="my-4">
-                <h3 class="text-3xl font-black text-gray-900">{{ number_format($totalRiders ?? 0) }}</h3>
+            <div class="my-3 sm:my-4">
+                <h3 class="text-2xl sm:text-3xl font-black text-gray-900">{{ number_format($totalRiders ?? 0) }}</h3>
             </div>
             <p class="text-[10px] font-semibold text-gray-500 pt-2 border-t border-gray-100">
                 Last-mile agents
@@ -159,15 +159,15 @@
         </div>
 
         <!-- Total Revenue -->
-        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5 flex flex-col justify-between">
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-4 sm:p-5 flex flex-col justify-between">
             <div class="flex justify-between items-start">
                 <p class="text-[11px] font-bold text-gray-600">Total Billed</p>
                 <div class="w-7 h-7 rounded-full border border-blue-100 flex items-center justify-center text-blue-500 bg-blue-50/50">
                     <i class="fa-solid fa-money-bill-trend-up text-[10px]"></i>
                 </div>
             </div>
-            <div class="my-4">
-                <h3 class="text-2xl font-black text-gray-900">₹{{ number_format($totalRevenue ?? 0, 2) }}</h3>
+            <div class="my-3 sm:my-4">
+                <h3 class="text-xl sm:text-2xl font-black text-gray-900">₹{{ number_format($totalRevenue ?? 0, 2) }}</h3>
             </div>
             <p class="text-[10px] font-semibold text-gray-500 pt-2 border-t border-gray-100">
                 Yesterday: <span class="text-gray-900">₹{{ number_format($yesterdayRevenue ?? 0, 2) }}</span>
@@ -175,15 +175,15 @@
         </div>
 
         <!-- COD Remittance -->
-        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5 flex flex-col justify-between">
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-4 sm:p-5 flex flex-col justify-between">
             <div class="flex justify-between items-start">
                 <p class="text-[11px] font-bold text-gray-600">COD Remitted</p>
                 <div class="w-7 h-7 rounded-full border border-gray-100 flex items-center justify-center text-gray-400">
                     <i class="fa-solid fa-building-columns text-[10px]"></i>
                 </div>
             </div>
-            <div class="my-4">
-                <h3 class="text-2xl font-black text-gray-900">₹{{ number_format($totalSettlements ?? 0, 2) }}</h3>
+            <div class="my-3 sm:my-4">
+                <h3 class="text-xl sm:text-2xl font-black text-gray-900">₹{{ number_format($totalSettlements ?? 0, 2) }}</h3>
             </div>
             <p class="text-[10px] font-semibold text-gray-500 pt-2 border-t border-gray-100">
                 Yesterday: <span class="text-gray-900">₹{{ number_format($yesterdaySettlements ?? 0, 2) }}</span>
@@ -192,28 +192,28 @@
     </div>
 
     <!-- Quick Actions Panel -->
-    <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5">
-        <h3 class="text-[13px] font-bold text-gray-900 mb-4 tracking-tight">Admin Actions</h3>
-        <div class="flex flex-wrap items-center gap-3">
-            <a href="{{ route('admin.sellers.index') }}" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2">
+    <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-4 sm:p-5">
+        <h3 class="text-[13px] font-bold text-gray-900 mb-3 sm:mb-4 tracking-tight">Admin Actions</h3>
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+            <a href="{{ route('admin.sellers.index') }}" class="px-3.5 sm:px-5 py-2 sm:py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2">
                 <i class="fa-solid fa-user-tie text-xs"></i> Manage Sellers
             </a>
-            <a href="{{ route('admin.hubs.index') }}" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2">
+            <a href="{{ route('admin.hubs.index') }}" class="px-3.5 sm:px-5 py-2 sm:py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2">
                 <i class="fa-solid fa-shop text-xs"></i> Manage Hubs
             </a>
-            <a href="{{ route('admin.couriers.index') }}" class="px-5 py-2.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2">
+            <a href="{{ route('admin.couriers.index') }}" class="px-3.5 sm:px-5 py-2 sm:py-2.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2">
                 <i class="fa-solid fa-truck-fast text-gray-400"></i> Couriers
             </a>
-            <a href="{{ route('admin.pincodes.index') }}" class="px-5 py-2.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2">
+            <a href="{{ route('admin.pincodes.index') }}" class="px-3.5 sm:px-5 py-2 sm:py-2.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2">
                 <i class="fa-solid fa-map-pin text-gray-400"></i> Pincodes
             </a>
-            <a href="{{ route('admin.ratecards.index') }}" class="px-5 py-2.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2">
+            <a href="{{ route('admin.ratecards.index') }}" class="px-3.5 sm:px-5 py-2 sm:py-2.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2">
                 <i class="fa-solid fa-file-invoice text-gray-400"></i> Rate Cards
             </a>
-            <a href="{{ route('admin.reports.index') }}" class="px-5 py-2.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2">
+            <a href="{{ route('admin.reports.index') }}" class="px-3.5 sm:px-5 py-2 sm:py-2.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2">
                 <i class="fa-solid fa-chart-pie text-gray-400"></i> Reports
             </a>
-            <a href="{{ route('admin.ndr.index') }}" class="px-5 py-2.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2">
+            <a href="{{ route('admin.ndr.index') }}" class="px-3.5 sm:px-5 py-2 sm:py-2.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold text-xs rounded-lg shadow-sm transition flex items-center gap-2">
                 <i class="fa-solid fa-triangle-exclamation text-gray-400"></i> Global NDR
             </a>
         </div>

@@ -64,9 +64,9 @@
     @endif
 
     <!-- Key Metrics Cards (Standard SaaS Dashboard style) -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         <!-- State Franchises -->
-        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5 flex flex-col justify-between">
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-4 sm:p-5 flex flex-col justify-between">
             <div class="flex justify-between items-start">
                 <p class="text-[11px] font-bold text-gray-600">State Franchises</p>
                 <div class="w-7 h-7 rounded-full border border-purple-100 flex items-center justify-center text-purple-600 bg-purple-50/50">
@@ -74,7 +74,7 @@
                 </div>
             </div>
             <div class="my-3">
-                <h3 class="text-3xl font-black text-gray-900">{{ number_format($stateFranchises->count()) }}</h3>
+                <h3 class="text-2xl sm:text-3xl font-black text-gray-900">{{ number_format($stateFranchises->count()) }}</h3>
             </div>
             <p class="text-[10px] font-semibold text-gray-500 pt-2 border-t border-gray-100">
                 State apex linehaul hubs
@@ -82,7 +82,7 @@
         </div>
 
         <!-- District Franchises -->
-        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5 flex flex-col justify-between">
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-4 sm:p-5 flex flex-col justify-between">
             <div class="flex justify-between items-start">
                 <p class="text-[11px] font-bold text-gray-600">District Franchises</p>
                 <div class="w-7 h-7 rounded-full border border-blue-100 flex items-center justify-center text-blue-600 bg-blue-50/50">
@@ -90,7 +90,7 @@
                 </div>
             </div>
             <div class="my-3">
-                <h3 class="text-3xl font-black text-gray-900">{{ number_format($allDistrictFranchises->count()) }}</h3>
+                <h3 class="text-2xl sm:text-3xl font-black text-gray-900">{{ number_format($allDistrictFranchises->count()) }}</h3>
             </div>
             <p class="text-[10px] font-semibold text-gray-500 pt-2 border-t border-gray-100">
                 Last-mile delivery centers
@@ -98,7 +98,7 @@
         </div>
 
         <!-- Physical Hubs -->
-        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5 flex flex-col justify-between">
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-4 sm:p-5 flex flex-col justify-between">
             <div class="flex justify-between items-start">
                 <p class="text-[11px] font-bold text-gray-600">Physical Sorting Hubs</p>
                 <div class="w-7 h-7 rounded-full border border-gray-100 flex items-center justify-center text-gray-400">
@@ -106,7 +106,7 @@
                 </div>
             </div>
             <div class="my-3">
-                <h3 class="text-3xl font-black text-gray-900">{{ number_format($hubs->total()) }}</h3>
+                <h3 class="text-2xl sm:text-3xl font-black text-gray-900">{{ number_format($hubs->total()) }}</h3>
             </div>
             <p class="text-[10px] font-semibold text-gray-500 pt-2 border-t border-gray-100">
                 Sorting & linehaul facilities
@@ -114,7 +114,7 @@
         </div>
 
         <!-- Pending Review -->
-        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-5 flex flex-col justify-between">
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] p-4 sm:p-5 flex flex-col justify-between">
             <div class="flex justify-between items-start">
                 <p class="text-[11px] font-bold text-gray-600">Pending Review</p>
                 <div class="w-7 h-7 rounded-full border border-amber-100 flex items-center justify-center text-amber-500 bg-amber-50/50">
@@ -122,7 +122,7 @@
                 </div>
             </div>
             <div class="my-3">
-                <h3 class="text-3xl font-black text-gray-900">{{ number_format($pendingFranchises->count()) }}</h3>
+                <h3 class="text-2xl sm:text-3xl font-black text-gray-900">{{ number_format($pendingFranchises->count()) }}</h3>
             </div>
             <p class="text-[10px] font-semibold text-gray-500 pt-2 border-t border-gray-100">
                 Applications awaiting action
@@ -176,11 +176,11 @@
     @endif
 
     <!-- Tabs Navigation -->
-    <div class="flex border-b border-gray-200 gap-6 text-xs font-bold">
-        <button @click="activeTab = 'hierarchy'" :class="activeTab === 'hierarchy' ? 'border-b-2 border-gray-900 text-gray-900 pb-3' : 'border-transparent text-gray-500 hover:text-gray-800 pb-3'" class="transition flex items-center gap-2">
+    <div class="flex border-b border-gray-200 gap-4 sm:gap-6 text-xs font-bold overflow-x-auto whitespace-nowrap scrollbar-hide">
+        <button @click="activeTab = 'hierarchy'" :class="activeTab === 'hierarchy' ? 'border-b-2 border-gray-900 text-gray-900 pb-3' : 'border-transparent text-gray-500 hover:text-gray-800 pb-3'" class="transition flex items-center gap-2 shrink-0">
             <i class="fa-solid fa-sitemap text-gray-400"></i> Franchise Network Hierarchy
         </button>
-        <button @click="activeTab = 'hubs'" :class="activeTab === 'hubs' ? 'border-b-2 border-gray-900 text-gray-900 pb-3' : 'border-transparent text-gray-500 hover:text-gray-800 pb-3'" class="transition flex items-center gap-2">
+        <button @click="activeTab = 'hubs'" :class="activeTab === 'hubs' ? 'border-b-2 border-gray-900 text-gray-900 pb-3' : 'border-transparent text-gray-500 hover:text-gray-800 pb-3'" class="transition flex items-center gap-2 shrink-0">
             <i class="fa-solid fa-warehouse text-gray-400"></i> Physical Sorting Hubs ({{ $hubs->total() }})
         </button>
     </div>
